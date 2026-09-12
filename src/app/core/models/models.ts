@@ -81,3 +81,14 @@ export interface QuestionResponse {
   answered: boolean;
   createdAt: string;
 }
+
+export interface BudgetVoteStatus {
+  open: boolean;
+  tieVotePending: boolean;
+  votedCount: number;
+  totalParticipants: number;
+  options: number[];
+  myVote: number | null;
+  tiedAmounts: number[];
+  currentBudget: number | null;
+}

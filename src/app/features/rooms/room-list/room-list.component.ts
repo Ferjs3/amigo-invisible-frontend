@@ -15,7 +15,12 @@ import { RoomSummary } from '../../../core/models/models';
         <div class="flex items-center gap-2 mb-1">
           <span class="font-display italic text-ink-soft text-xs">Amigo invisible</span>
         </div>
-        <h1 class="font-display text-2xl text-ink mb-5">Hola, {{ authService.currentUser()?.username }}</h1>
+        <div class="flex items-start justify-between mb-5">
+          <h1 class="font-display text-2xl text-ink">Hola, {{ authService.currentUser()?.username }}</h1>
+          <button (click)="authService.logout()" class="text-xs text-ink-soft underline mt-2">
+            Cerrar sesión
+          </button>
+        </div>
 
         <div class="flex gap-2 mb-6">
           <a
@@ -60,7 +65,7 @@ import { RoomSummary } from '../../../core/models/models';
                   </span>
                 </div>
                 <div class="flex gap-3 mt-2 text-xs text-ink-soft">
-                  <span>{{ room.eventDate ?? 'sin fecha' }}</span>
+                  <span>{{ room.eventDate ? (room.eventDate | date: 'dd/MM/yyyy') : 'sin fecha' }}</span>
                   <span>{{ room.participantCount }} personas</span>
                 </div>
               </a>

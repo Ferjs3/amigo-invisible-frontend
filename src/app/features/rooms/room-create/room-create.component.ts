@@ -57,6 +57,7 @@ import { RoomService } from '../../../core/services/room.service';
                 type="date"
                 [(ngModel)]="eventDate"
                 name="eventDate"
+                [min]="minDate"
               />
             </label>
             <label class="block">
@@ -107,6 +108,7 @@ export class RoomCreateComponent {
   error = signal<string | null>(null);
   createdCode = signal<string | null>(null);
   createdRoomId: number | null = null;
+  minDate = new Date().toISOString().split('T')[0];
 
   constructor(private roomService: RoomService, private router: Router) {}
 

@@ -48,7 +48,7 @@ import { RoomPreview } from '../../../core/models/models';
           <div class="bg-paper-dim rounded-xl px-4 py-3 mb-5">
             <p class="text-sm text-ink mb-1.5">Organiza {{ preview()!.adminUsername }}</p>
             <div class="flex gap-3 text-xs text-ink-soft">
-              <span>{{ preview()!.eventDate ?? 'sin fecha' }}</span>
+              <span>{{ preview()!.eventDate ? (preview()!.eventDate | date: 'dd/MM/yyyy') : 'sin fecha' }}</span>
               <span>{{ preview()!.participantCount }} anotados</span>
               @if (preview()!.suggestedBudget) {
                 <span>hasta {{ '$' + preview()!.suggestedBudget }}</span>

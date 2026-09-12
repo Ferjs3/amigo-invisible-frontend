@@ -27,13 +27,23 @@ import { AuthService } from '../../../core/services/auth.service';
           </label>
           <label class="block">
             <span class="block text-xs text-ink-soft mb-1">Contraseña</span>
-            <input
-              class="w-full text-sm px-3 py-2.5 rounded-lg border border-plum/20 bg-white text-ink"
-              type="password"
-              [(ngModel)]="password"
-              name="password"
-              required
-            />
+            <div class="relative">
+              <input
+                class="w-full text-sm px-3 py-2.5 pr-10 rounded-lg border border-plum/20 bg-white text-ink"
+                [type]="showPassword() ? 'text' : 'password'"
+                [(ngModel)]="password"
+                name="password"
+                required
+              />
+              <button
+                type="button"
+                (click)="showPassword.set(!showPassword())"
+                class="absolute right-0 top-0 h-full px-3 text-ink-soft text-xs"
+                [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              >
+                {{ showPassword() ? '🙈' : '👁' }}
+              </button>
+            </div>
           </label>
 
           @if (error()) {
@@ -62,6 +72,7 @@ export class LoginComponent {
   password = '';
   loading = signal(false);
   error = signal<string | null>(null);
+  showPassword = signal(false);
 
   constructor(
     private authService: AuthService,

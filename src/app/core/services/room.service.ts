@@ -28,6 +28,10 @@ export class RoomService {
     return this.http.post<RoomDetail>(this.baseUrl, payload);
   }
 
+  deleteRoom(roomId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${roomId}`);
+  }
+
   myRooms(): Observable<RoomSummary[]> {
     return this.http.get<RoomSummary[]>(this.baseUrl);
   }
