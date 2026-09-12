@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RoomService } from '../../../core/services/room.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { RoomDetail } from '../../../core/models/models';
@@ -34,9 +34,16 @@ type Tab = 'resumen' | 'amigo' | 'tablon' | 'preguntas';
             <p class="font-display italic text-xs text-ink-soft mt-2">Sala de amigo invisible</p>
             <div class="flex items-start justify-between mt-1">
               <h1 class="font-display text-2xl text-ink">{{ room()!.name }}</h1>
-              <div class="bg-plum text-gold rounded-lg px-3 py-1.5 font-display text-sm tracking-widest">
+              <button
+                (click)="copyCode()"
+                class="bg-plum text-gold rounded-lg px-3 py-1.5 font-display text-sm tracking-widest flex items-center gap-2"
+                title="Copiar código"
+              >
                 {{ room()!.code }}
-              </div>
+                <span class="text-[10px] font-sans tracking-normal opacity-80">
+                  {{ copied() ? '✓ copiado' : '⧉' }}
+                </span>
+              </button>
             </div>
             <div class="flex flex-wrap gap-x-5 gap-y-1.5 mt-3.5 text-xs text-ink-soft">
               <span>{{ room()!.eventDate ?? 'sin fecha' }}</span>
@@ -73,7 +80,11 @@ type Tab = 'resumen' | 'amigo' | 'tablon' | 'preguntas';
                 <app-participants-list
                   [participants]="room()!.participants"
                   [isAdmin]="room()!.isAdmin"
+                  [roomOpen]="room()!.status === 'OPEN'"
                   (draw)="onDraw()"
+                  (toggleReady)="onToggleReady($event)"
+                  (removeParticipant)="onRemoveParticipant($event)"
+                  (leave)="onLeave()"
                 />
                 @if (room()!.isAdmin && room()!.status === 'OPEN') {
                   <div class="mt-7 pt-5 border-t border-plum/10">
@@ -113,6 +124,7 @@ export class RoomLobbyComponent implements OnInit {
   room = signal<RoomDetail | null>(null);
   error = signal<string | null>(null);
   tab = signal<Tab>('resumen');
+  copied = signal(false);
 
   tabs: { id: Tab; label: string }[] = [
     { id: 'resumen', label: 'Resumen' },
@@ -123,6 +135,7 @@ export class RoomLobbyComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private roomService: RoomService,
     private authService: AuthService
   ) {}
@@ -143,6 +156,15 @@ export class RoomLobbyComponent implements OnInit {
     });
   }
 
+  copyCode(): void {
+    const room = this.room();
+    if (!room) return;
+    navigator.clipboard.writeText(room.code).then(() => {
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 1800);
+    });
+  }
+
   onDraw(): void {
     const room = this.room();
     if (!room) return;
@@ -152,6 +174,37 @@ export class RoomLobbyComponent implements OnInit {
         this.tab.set('amigo');
       },
       error: (err) => this.error.set(err.error?.message ?? 'No se pudo realizar el sorteo'),
+    });
+  }
+
+  onToggleReady(ready: boolean): void {
+    const room = this.room();
+    if (!room) return;
+    this.roomService.setReady(room.id, ready).subscribe({
+      next: (updated) => this.room.set(updated),
+      error: (err) => this.error.set(err.error?.message ?? 'No se pudo actualizar tu estado'),
+    });
+  }
+
+  onRemoveParticipant(userId: number): void {
+    const room = this.room();
+    if (!room) return;
+    if (!confirm('¿Seguro que querés sacar a esta persona de la sala?')) return;
+
+    this.roomService.removeParticipant(room.id, userId).subscribe({
+      next: (updated) => this.room.set(updated),
+      error: (err) => this.error.set(err.error?.message ?? 'No se pudo eliminar al participante'),
+    });
+  }
+
+  onLeave(): void {
+    const room = this.room();
+    if (!room) return;
+    if (!confirm('¿Seguro que querés salir de esta sala?')) return;
+
+    this.roomService.leave(room.id).subscribe({
+      next: () => this.router.navigate(['/rooms']),
+      error: (err) => this.error.set(err.error?.message ?? 'No se pudo salir de la sala'),
     });
   }
 }

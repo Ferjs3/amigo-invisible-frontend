@@ -16,15 +16,47 @@ import { ParticipantResponse } from '../../../../core/models/models';
       @for (p of participants; track p.userId) {
         <div class="flex items-center justify-between bg-paper-dim rounded-lg px-3.5 py-2.5">
           <span class="text-sm text-ink">{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</span>
-          <span
-            class="text-xs px-2 py-1 rounded-full"
-            [ngClass]="p.status === 'READY' ? 'bg-[#E4EDE6] text-pine-dark' : 'bg-[#F3E3DC] text-coral-dark'"
-          >
-            {{ p.status === 'READY' ? 'Listo' : 'Pendiente' }}
-          </span>
+
+          <div class="flex items-center gap-2">
+            @if (p.isMe && roomOpen) {
+              <button
+                (click)="toggleReady.emit(p.status !== 'READY')"
+                class="text-xs px-2.5 py-1 rounded-full border"
+                [ngClass]="p.status === 'READY' ? 'bg-[#E4EDE6] text-pine-dark border-pine/30' : 'bg-[#F3E3DC] text-coral-dark border-coral/30'"
+              >
+                {{ p.status === 'READY' ? 'Listo ✓' : 'Marcarme listo' }}
+              </button>
+            } @else {
+              <span
+                class="text-xs px-2 py-1 rounded-full"
+                [ngClass]="p.status === 'READY' ? 'bg-[#E4EDE6] text-pine-dark' : 'bg-[#F3E3DC] text-coral-dark'"
+              >
+                {{ p.status === 'READY' ? 'Listo' : 'Pendiente' }}
+              </span>
+            }
+
+            @if (isAdmin && !p.isMe && roomOpen) {
+              <button
+                (click)="removeParticipant.emit(p.userId)"
+                class="text-xs text-coral-dark"
+                title="Eliminar de la sala"
+              >
+                Eliminar
+              </button>
+            }
+          </div>
         </div>
       }
     </div>
+
+    @if (!isAdmin && roomOpen) {
+      <button
+        (click)="leave.emit()"
+        class="mt-4 text-xs text-coral-dark underline"
+      >
+        Salir de la sala
+      </button>
+    }
 
     @if (isAdmin) {
       <div class="mt-5 bg-plum rounded-lg px-4 py-3.5">
@@ -45,7 +77,12 @@ import { ParticipantResponse } from '../../../../core/models/models';
 export class ParticipantsListComponent {
   @Input({ required: true }) participants: ParticipantResponse[] = [];
   @Input() isAdmin = false;
+  @Input() roomOpen = true;
+
   @Output() draw = new EventEmitter<void>();
+  @Output() toggleReady = new EventEmitter<boolean>();
+  @Output() removeParticipant = new EventEmitter<number>();
+  @Output() leave = new EventEmitter<void>();
 
   readyCount(): number {
     return this.participants.filter((p) => p.status === 'READY').length;

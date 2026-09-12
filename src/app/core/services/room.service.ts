@@ -52,6 +52,10 @@ export class RoomService {
     return this.http.delete<void>(`${this.baseUrl}/${roomId}/participants/me`);
   }
 
+  removeParticipant(roomId: number, userId: number): Observable<RoomDetail> {
+    return this.http.delete<RoomDetail>(`${this.baseUrl}/${roomId}/participants/${userId}`);
+  }
+
   listExclusions(roomId: number): Observable<ExclusionResponse[]> {
     return this.http.get<ExclusionResponse[]>(`${this.baseUrl}/${roomId}/exclusions`);
   }
