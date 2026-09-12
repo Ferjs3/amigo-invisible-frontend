@@ -52,3 +52,27 @@ dos archivos.
   responde `401`, el `authErrorInterceptor` desloguea y redirige a `/login` automáticamente.
 - El flujo completo es: `/login` → `/rooms` (home) → `/rooms/new` o `/rooms/join` →
   `/rooms/:id` (lobby).
+
+## PWA (instalable en el celu)
+
+La app ahora es instalable: en Android/Chrome aparece un cartel de "Agregar a la
+pantalla de inicio", y en iOS/Safari se puede agregar manualmente desde el botón
+Compartir → "Agregar a inicio". Una vez instalada, abre en su propia ventana sin
+la barra de direcciones del navegador.
+
+**Importante**: el service worker (lo que hace posible instalarla) solo se activa
+en el build de producción, nunca con `npm start`. Si querés probarlo en tu máquina
+antes de deployar:
+
+```bash
+npm run build
+npx http-server dist/amigo-invisible-frontend/browser -p 8081
+```
+
+y abrís `http://localhost:8081`. En Vercel no hace falta hacer nada especial: como
+ya deploya con `ng build` en modo producción, la PWA queda activa automáticamente
+en cada deploy.
+
+Los íconos están en `src/assets/icons/` — si en algún momento querés cambiar el
+diseño (hoy son las iniciales "AI" en dorado sobre fondo ciruela), simplemente
+reemplazá esos archivos PNG manteniendo los mismos nombres y tamaños.
