@@ -16,8 +16,8 @@ export class QuestionService {
     return this.http.get<QuestionResponse[]>(`${environment.apiUrl}/rooms/${roomId}/questions/received`);
   }
 
-  ask(roomId: number, targetUserId: number, questionText: string): Observable<AskedQuestionResponse> {
-    return this.http.post<AskedQuestionResponse>(`${environment.apiUrl}/rooms/${roomId}/questions/${targetUserId}`, {
+  ask(roomId: number, questionText: string): Observable<AskedQuestionResponse> {
+    return this.http.post<AskedQuestionResponse>(`${environment.apiUrl}/rooms/${roomId}/questions/ask`, {
       questionText,
     });
   }

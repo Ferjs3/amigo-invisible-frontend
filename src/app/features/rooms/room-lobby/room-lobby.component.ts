@@ -125,8 +125,7 @@ const POLL_INTERVAL_MS = 6000;
               @case ('preguntas') {
                 <app-questions-wall
                   [roomId]="room()!.id"
-                  [participants]="room()!.participants"
-                  [currentUserId]="currentUserId()!"
+                  [roomSealed]="room()!.status === 'SEALED'"
                 />
               }
             }

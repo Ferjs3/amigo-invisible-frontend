@@ -2,7 +2,8 @@ import { Component, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuestionService } from '../../../../core/services/question.service';
-import { AskedQuestionResponse, ParticipantResponse, QuestionResponse } from '../../../../core/models/models';
+import { RoomService } from '../../../../core/services/room.service';
+import { AskedQuestionResponse, QuestionResponse } from '../../../../core/models/models';
 
 @Component({
   selector: 'app-questions-wall',
@@ -12,39 +13,37 @@ import { AskedQuestionResponse, ParticipantResponse, QuestionResponse } from '..
     <h2 class="font-display text-lg text-ink mb-1">Preguntas anónimas</h2>
     <p class="text-xs text-ink-soft mb-4">
       Todo acá es privado: solo vos ves lo que preguntaste, y solo vos ves lo que te preguntaron.
-      Nadie más tiene acceso a esto.
     </p>
 
-    <!-- Hacer una pregunta -->
+    <!-- Hacer una pregunta: siempre a tu amigo invisible asignado, nunca a elegir -->
     <div class="bg-paper-dim rounded-lg px-3.5 py-3 mb-5">
-      <p class="text-xs text-ink-soft mb-2">Preguntale algo a alguien de la sala, sin firmar:</p>
-      <div class="flex flex-col gap-2 sm:flex-row">
-        <select
-          [(ngModel)]="targetUserId"
-          class="text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-white text-ink sm:w-40"
-        >
-          <option [ngValue]="null">Elegí a quién</option>
-          @for (p of otherParticipants(); track p.userId) {
-            <option [ngValue]="p.userId">{{ p.username }}</option>
-          }
-        </select>
-        <input
-          class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-white text-ink"
-          type="text"
-          [(ngModel)]="newQuestionText"
-          name="newQuestion"
-          placeholder="Ej: ¿Talle de remera?"
-        />
-        <button
-          (click)="ask()"
-          [disabled]="!targetUserId || !newQuestionText.trim() || asking()"
-          class="bg-coral disabled:opacity-40 text-white rounded-lg px-4 text-sm shrink-0"
-        >
-          Enviar
-        </button>
-      </div>
-      @if (askError()) {
-        <p class="text-xs text-coral-dark mt-2">{{ askError() }}</p>
+      @if (!roomSealed) {
+        <p class="text-xs text-ink-soft italic">
+          Vas a poder preguntarle algo a tu amigo invisible una vez que se haga el sorteo.
+        </p>
+      } @else if (myTargetName()) {
+        <p class="text-xs text-ink-soft mb-2">Preguntale algo a tu amigo invisible, sin firmar:</p>
+        <div class="flex gap-2">
+          <input
+            class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-white text-ink"
+            type="text"
+            [(ngModel)]="newQuestionText"
+            name="newQuestion"
+            placeholder="Ej: ¿Talle de remera?"
+          />
+          <button
+            (click)="ask()"
+            [disabled]="!newQuestionText.trim() || asking()"
+            class="bg-coral disabled:opacity-40 text-white rounded-lg px-4 text-sm shrink-0"
+          >
+            Enviar
+          </button>
+        </div>
+        @if (askError()) {
+          <p class="text-xs text-coral-dark mt-2">{{ askError() }}</p>
+        }
+      } @else {
+        <p class="text-xs text-ink-soft italic">Cargando tu asignación…</p>
       }
     </div>
 
@@ -99,26 +98,30 @@ import { AskedQuestionResponse, ParticipantResponse, QuestionResponse } from '..
 })
 export class QuestionsWallComponent implements OnInit {
   @Input({ required: true }) roomId!: number;
-  @Input({ required: true }) participants: ParticipantResponse[] = [];
-  @Input({ required: true }) currentUserId!: number;
+  @Input({ required: true }) roomSealed = false;
 
   asked = signal<AskedQuestionResponse[]>([]);
   received = signal<QuestionResponse[]>([]);
-  targetUserId: number | null = null;
+  myTargetName = signal<string | null>(null);
   newQuestionText = '';
   asking = signal(false);
   askError = signal<string | null>(null);
   replyDrafts: Record<number, string> = {};
 
-  constructor(private questionService: QuestionService) {}
+  constructor(
+    private questionService: QuestionService,
+    private roomService: RoomService
+  ) {}
 
   ngOnInit(): void {
     this.loadAsked();
     this.loadReceived();
-  }
-
-  otherParticipants(): ParticipantResponse[] {
-    return this.participants.filter((p) => p.userId !== this.currentUserId);
+    if (this.roomSealed) {
+      this.roomService.myAssignment(this.roomId).subscribe({
+        next: (a) => this.myTargetName.set(a.receiverUsername),
+        error: () => this.myTargetName.set(null),
+      });
+    }
   }
 
   loadAsked(): void {
@@ -130,14 +133,13 @@ export class QuestionsWallComponent implements OnInit {
   }
 
   ask(): void {
-    if (!this.targetUserId || !this.newQuestionText.trim()) return;
+    if (!this.newQuestionText.trim()) return;
     this.asking.set(true);
     this.askError.set(null);
 
-    this.questionService.ask(this.roomId, this.targetUserId, this.newQuestionText.trim()).subscribe({
+    this.questionService.ask(this.roomId, this.newQuestionText.trim()).subscribe({
       next: () => {
         this.newQuestionText = '';
-        this.targetUserId = null;
         this.asking.set(false);
         this.loadAsked();
       },
