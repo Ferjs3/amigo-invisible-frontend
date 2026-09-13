@@ -2,7 +2,7 @@ import { Component, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuestionService } from '../../../../core/services/question.service';
-import { ParticipantResponse, QuestionResponse } from '../../../../core/models/models';
+import { AskedQuestionResponse, ParticipantResponse, QuestionResponse } from '../../../../core/models/models';
 
 @Component({
   selector: 'app-questions-wall',
@@ -11,69 +11,90 @@ import { ParticipantResponse, QuestionResponse } from '../../../../core/models/m
   template: `
     <h2 class="font-display text-lg text-ink mb-1">Preguntas anónimas</h2>
     <p class="text-xs text-ink-soft mb-4">
-      Elegí un muro para ver o dejar una pregunta. Quien responde no ve quién preguntó.
+      Todo acá es privado: solo vos ves lo que preguntaste, y solo vos ves lo que te preguntaron.
+      Nadie más tiene acceso a esto.
     </p>
 
-    <div class="flex gap-2 flex-wrap mb-4">
-      @for (p of participants; track p.userId) {
-        <button
-          (click)="selectWall(p.userId)"
-          class="text-xs px-3 py-1.5 rounded-full"
-          [ngClass]="selectedWallId === p.userId ? 'bg-plum text-paper' : 'bg-paper-dim text-ink'"
+    <!-- Hacer una pregunta -->
+    <div class="bg-paper-dim rounded-lg px-3.5 py-3 mb-5">
+      <p class="text-xs text-ink-soft mb-2">Preguntale algo a alguien de la sala, sin firmar:</p>
+      <div class="flex flex-col gap-2 sm:flex-row">
+        <select
+          [(ngModel)]="targetUserId"
+          class="text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-white text-ink sm:w-40"
         >
-          {{ p.username }}{{ p.isMe ? ' (vos)' : '' }}
+          <option [ngValue]="null">Elegí a quién</option>
+          @for (p of otherParticipants(); track p.userId) {
+            <option [ngValue]="p.userId">{{ p.username }}</option>
+          }
+        </select>
+        <input
+          class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-white text-ink"
+          type="text"
+          [(ngModel)]="newQuestionText"
+          name="newQuestion"
+          placeholder="Ej: ¿Talle de remera?"
+        />
+        <button
+          (click)="ask()"
+          [disabled]="!targetUserId || !newQuestionText.trim() || asking()"
+          class="bg-coral disabled:opacity-40 text-white rounded-lg px-4 text-sm shrink-0"
+        >
+          Enviar
         </button>
+      </div>
+      @if (askError()) {
+        <p class="text-xs text-coral-dark mt-2">{{ askError() }}</p>
       }
     </div>
 
-    <div class="flex flex-col gap-2.5 mb-4">
-      @for (q of questions(); track q.id) {
+    <!-- Lo que me preguntaron -->
+    <h3 class="text-sm font-semibold text-ink mb-2">Me preguntaron</h3>
+    <div class="flex flex-col gap-2.5 mb-5 max-h-64 overflow-y-auto pr-1">
+      @for (q of received(); track q.id) {
         <div class="bg-paper-dim rounded-lg px-3.5 py-3">
           <p class="text-sm text-ink italic">&ldquo;{{ q.questionText }}&rdquo;</p>
-
           @if (q.answered) {
             <p class="text-sm text-pine-dark mt-1.5">→ {{ q.answerText }}</p>
-          } @else if (isMyWall()) {
+          } @else {
             <div class="flex gap-2 mt-2">
               <input
                 class="flex-1 text-sm px-2.5 py-1.5 rounded-lg border border-plum/20 bg-white text-ink"
                 type="text"
                 [(ngModel)]="replyDrafts[q.id]"
                 [name]="'reply-' + q.id"
-                placeholder="Responder públicamente"
+                placeholder="Responder (sin saber quién preguntó)"
               />
-              <button (click)="answer(q.id)" class="bg-pine text-paper rounded-lg px-3 text-sm">
+              <button (click)="answer(q.id)" class="bg-pine text-paper rounded-lg px-3 text-sm shrink-0">
                 Enviar
               </button>
             </div>
+          }
+        </div>
+      }
+      @if (received().length === 0) {
+        <p class="text-xs text-ink-soft italic">Todavía no te preguntaron nada.</p>
+      }
+    </div>
+
+    <!-- Lo que pregunté -->
+    <h3 class="text-sm font-semibold text-ink mb-2">Pregunté</h3>
+    <div class="flex flex-col gap-2.5 max-h-64 overflow-y-auto pr-1">
+      @for (q of asked(); track q.id) {
+        <div class="bg-paper-dim rounded-lg px-3.5 py-3">
+          <p class="text-xs text-ink-soft mb-1">A {{ q.targetUsername }}</p>
+          <p class="text-sm text-ink italic">&ldquo;{{ q.questionText }}&rdquo;</p>
+          @if (q.answered) {
+            <p class="text-sm text-pine-dark mt-1.5">→ {{ q.answerText }}</p>
           } @else {
             <p class="text-xs text-ink-soft italic mt-1.5">Sin responder todavía</p>
           }
         </div>
       }
-      @if (questions().length === 0) {
-        <p class="text-xs text-ink-soft italic">Todavía no hay preguntas en este muro.</p>
+      @if (asked().length === 0) {
+        <p class="text-xs text-ink-soft italic">Todavía no le preguntaste nada a nadie.</p>
       }
     </div>
-
-    @if (!isMyWall() && selectedWallId) {
-      <div class="flex gap-2">
-        <input
-          class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-paper-dim text-ink"
-          type="text"
-          [(ngModel)]="newQuestionText"
-          name="newQuestion"
-          placeholder="Preguntale algo sin firmar"
-        />
-        <button
-          (click)="ask()"
-          [disabled]="!newQuestionText.trim()"
-          class="bg-coral disabled:opacity-40 text-white rounded-lg px-4 text-sm"
-        >
-          Enviar
-        </button>
-      </div>
-    }
   `,
 })
 export class QuestionsWallComponent implements OnInit {
@@ -81,33 +102,49 @@ export class QuestionsWallComponent implements OnInit {
   @Input({ required: true }) participants: ParticipantResponse[] = [];
   @Input({ required: true }) currentUserId!: number;
 
-  selectedWallId: number | null = null;
-  questions = signal<QuestionResponse[]>([]);
+  asked = signal<AskedQuestionResponse[]>([]);
+  received = signal<QuestionResponse[]>([]);
+  targetUserId: number | null = null;
   newQuestionText = '';
+  asking = signal(false);
+  askError = signal<string | null>(null);
   replyDrafts: Record<number, string> = {};
 
   constructor(private questionService: QuestionService) {}
 
   ngOnInit(): void {
-    const other = this.participants.find((p) => !p.isMe);
-    this.selectWall(other?.userId ?? this.participants[0]?.userId ?? null);
+    this.loadAsked();
+    this.loadReceived();
   }
 
-  isMyWall(): boolean {
-    return this.selectedWallId === this.currentUserId;
+  otherParticipants(): ParticipantResponse[] {
+    return this.participants.filter((p) => p.userId !== this.currentUserId);
   }
 
-  selectWall(userId: number | null): void {
-    if (!userId) return;
-    this.selectedWallId = userId;
-    this.questionService.getWall(this.roomId, userId).subscribe((qs) => this.questions.set(qs));
+  loadAsked(): void {
+    this.questionService.getAskedByMe(this.roomId).subscribe((qs) => this.asked.set(qs));
+  }
+
+  loadReceived(): void {
+    this.questionService.getReceivedByMe(this.roomId).subscribe((qs) => this.received.set(qs));
   }
 
   ask(): void {
-    if (!this.selectedWallId || !this.newQuestionText.trim()) return;
-    this.questionService.ask(this.roomId, this.selectedWallId, this.newQuestionText.trim()).subscribe(() => {
-      this.newQuestionText = '';
-      this.selectWall(this.selectedWallId);
+    if (!this.targetUserId || !this.newQuestionText.trim()) return;
+    this.asking.set(true);
+    this.askError.set(null);
+
+    this.questionService.ask(this.roomId, this.targetUserId, this.newQuestionText.trim()).subscribe({
+      next: () => {
+        this.newQuestionText = '';
+        this.targetUserId = null;
+        this.asking.set(false);
+        this.loadAsked();
+      },
+      error: (err) => {
+        this.asking.set(false);
+        this.askError.set(err.error?.message ?? 'No se pudo enviar la pregunta');
+      },
     });
   }
 
@@ -116,7 +153,7 @@ export class QuestionsWallComponent implements OnInit {
     if (!draft?.trim()) return;
     this.questionService.answer(questionId, draft.trim()).subscribe(() => {
       delete this.replyDrafts[questionId];
-      this.selectWall(this.selectedWallId);
+      this.loadReceived();
     });
   }
 }

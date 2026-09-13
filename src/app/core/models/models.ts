@@ -82,6 +82,16 @@ export interface QuestionResponse {
   createdAt: string;
 }
 
+export interface AskedQuestionResponse {
+  id: number;
+  targetUserId: number;
+  targetUsername: string;
+  questionText: string;
+  answerText: string | null;
+  answered: boolean;
+  createdAt: string;
+}
+
 export interface BudgetVoteStatus {
   open: boolean;
   tieVotePending: boolean;

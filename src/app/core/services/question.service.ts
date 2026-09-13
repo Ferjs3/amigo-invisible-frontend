@@ -2,18 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { QuestionResponse } from '../models/models';
+import { AskedQuestionResponse, QuestionResponse } from '../models/models';
 
 @Injectable({ providedIn: 'root' })
 export class QuestionService {
   constructor(private http: HttpClient) {}
 
-  getWall(roomId: number, targetUserId: number): Observable<QuestionResponse[]> {
-    return this.http.get<QuestionResponse[]>(`${environment.apiUrl}/rooms/${roomId}/questions/${targetUserId}`);
+  getAskedByMe(roomId: number): Observable<AskedQuestionResponse[]> {
+    return this.http.get<AskedQuestionResponse[]>(`${environment.apiUrl}/rooms/${roomId}/questions/asked`);
   }
 
-  ask(roomId: number, targetUserId: number, questionText: string): Observable<QuestionResponse> {
-    return this.http.post<QuestionResponse>(`${environment.apiUrl}/rooms/${roomId}/questions/${targetUserId}`, {
+  getReceivedByMe(roomId: number): Observable<QuestionResponse[]> {
+    return this.http.get<QuestionResponse[]>(`${environment.apiUrl}/rooms/${roomId}/questions/received`);
+  }
+
+  ask(roomId: number, targetUserId: number, questionText: string): Observable<AskedQuestionResponse> {
+    return this.http.post<AskedQuestionResponse>(`${environment.apiUrl}/rooms/${roomId}/questions/${targetUserId}`, {
       questionText,
     });
   }
