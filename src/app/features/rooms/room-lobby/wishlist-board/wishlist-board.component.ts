@@ -9,41 +9,41 @@ import { ParticipantResponse, WishlistItem } from '../../../../core/models/model
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <h2 class="font-display text-lg text-ink mb-1">Tablón de sugerencias</h2>
-    <p class="text-xs text-ink-soft mb-4">
+    <h2 class="font-display text-lg text-fg mb-1">Tablón de sugerencias</h2>
+    <p class="text-xs text-fg-muted mb-4">
       Cada uno gestiona su propia lista. Todos pueden verla, sirve de guía para regalar.
     </p>
 
     <div class="flex flex-col gap-4">
       @for (p of participants; track p.userId) {
-        <div class="bg-paper-dim rounded-lg px-4 py-3.5">
-          <p class="text-sm font-semibold text-ink mb-2">{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</p>
+        <div class="bg-surface-dim rounded-lg px-4 py-3.5">
+          <p class="text-sm font-semibold text-fg mb-2">{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</p>
 
           <div class="flex flex-col gap-1.5">
             @for (item of itemsByUser[p.userId] ?? []; track item.id) {
-              <div class="flex items-start justify-between text-sm text-ink">
+              <div class="flex items-start justify-between text-sm text-fg">
                 <span>
                   · {{ item.title }}
                   @if (item.note) {
-                    <span class="text-ink-soft"> — {{ item.note }}</span>
+                    <span class="text-fg-muted"> — {{ item.note }}</span>
                   }
                 </span>
                 @if (p.isMe) {
-                  <button (click)="deleteItem(p.userId, item.id)" class="text-coral-dark text-xs ml-2 shrink-0">
+                  <button (click)="deleteItem(p.userId, item.id)" class="text-danger-dark text-xs ml-2 shrink-0">
                     Borrar
                   </button>
                 }
               </div>
             }
             @if ((itemsByUser[p.userId] ?? []).length === 0) {
-              <span class="text-xs text-ink-soft italic">Todavía no cargó ideas.</span>
+              <span class="text-xs text-fg-muted italic">Todavía no cargó ideas.</span>
             }
           </div>
 
           @if (p.isMe) {
             <div class="flex gap-2 mt-2.5">
               <input
-                class="flex-1 text-sm px-2.5 py-1.5 rounded-lg border border-plum/20 bg-white text-ink"
+                class="flex-1 text-sm px-2.5 py-1.5 rounded-lg border border-primary/20 bg-white text-fg"
                 type="text"
                 [(ngModel)]="newItemTitle"
                 [name]="'newItem-' + p.userId"
@@ -52,7 +52,7 @@ import { ParticipantResponse, WishlistItem } from '../../../../core/models/model
               <button
                 (click)="addItem(p.userId)"
                 [disabled]="!newItemTitle.trim()"
-                class="bg-plum disabled:opacity-40 text-paper rounded-lg px-3 text-sm"
+                class="bg-primary disabled:opacity-40 text-surface rounded-lg px-3 text-sm"
               >
                 Sumar
               </button>

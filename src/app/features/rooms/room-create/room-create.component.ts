@@ -9,20 +9,20 @@ import { RoomService } from '../../../core/services/room.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-plum-dark px-4 py-8">
-      <div class="max-w-md mx-auto bg-paper rounded-2xl p-6">
-        <a routerLink="/rooms" class="text-xs text-ink-soft">&larr; Volver</a>
-        <h1 class="font-display text-2xl text-ink mt-3 mb-5">Crear una sala</h1>
+    <div class="min-h-screen bg-canvas px-4 py-8">
+      <div class="max-w-md mx-auto bg-surface rounded-2xl p-6">
+        <a routerLink="/rooms" class="text-xs text-fg-muted">&larr; Volver</a>
+        <h1 class="font-display text-2xl text-fg mt-3 mb-5">Crear una sala</h1>
 
         @if (createdCode()) {
           <div class="text-center py-6">
-            <p class="text-sm text-ink-soft mb-2">Sala creada. Compartí este código con tus invitados</p>
-            <div class="inline-block bg-plum text-gold font-display text-2xl tracking-[6px] rounded-xl px-6 py-3 mb-6">
+            <p class="text-sm text-fg-muted mb-2">Sala creada. Compartí este código con tus invitados</p>
+            <div class="inline-block bg-primary text-accent font-display text-2xl tracking-[6px] rounded-xl px-6 py-3 mb-6">
               {{ createdCode() }}
             </div>
             <button
               (click)="goToRoom()"
-              class="w-full bg-gold text-plum-dark font-semibold text-sm rounded-lg py-2.5"
+              class="w-full bg-accent text-canvas font-semibold text-sm rounded-lg py-2.5"
             >
               Ir a la sala
             </button>
@@ -30,9 +30,9 @@ import { RoomService } from '../../../core/services/room.service';
         } @else {
           <form (ngSubmit)="submit()" class="flex flex-col gap-3">
             <label class="block">
-              <span class="block text-xs text-ink-soft mb-1">Nombre de la sala</span>
+              <span class="block text-xs text-fg-muted mb-1">Nombre de la sala</span>
               <input
-                class="w-full text-sm px-3 py-2.5 rounded-lg border border-plum/20 bg-white text-ink"
+                class="w-full text-sm px-3 py-2.5 rounded-lg border border-primary/20 bg-white text-fg"
                 type="text"
                 [(ngModel)]="name"
                 name="name"
@@ -41,9 +41,9 @@ import { RoomService } from '../../../core/services/room.service';
               />
             </label>
             <label class="block">
-              <span class="block text-xs text-ink-soft mb-1">Presupuesto sugerido</span>
+              <span class="block text-xs text-fg-muted mb-1">Presupuesto sugerido</span>
               <input
-                class="w-full text-sm px-3 py-2.5 rounded-lg border border-plum/20 bg-white text-ink"
+                class="w-full text-sm px-3 py-2.5 rounded-lg border border-primary/20 bg-white text-fg"
                 type="number"
                 [(ngModel)]="suggestedBudget"
                 name="suggestedBudget"
@@ -51,9 +51,9 @@ import { RoomService } from '../../../core/services/room.service';
               />
             </label>
             <label class="block">
-              <span class="block text-xs text-ink-soft mb-1">Fecha del evento</span>
+              <span class="block text-xs text-fg-muted mb-1">Fecha del evento</span>
               <input
-                class="w-full text-sm px-3 py-2.5 rounded-lg border border-plum/20 bg-white text-ink"
+                class="w-full text-sm px-3 py-2.5 rounded-lg border border-primary/20 bg-white text-fg"
                 type="date"
                 [(ngModel)]="eventDate"
                 name="eventDate"
@@ -61,9 +61,9 @@ import { RoomService } from '../../../core/services/room.service';
               />
             </label>
             <label class="block">
-              <span class="block text-xs text-ink-soft mb-1">Lugar</span>
+              <span class="block text-xs text-fg-muted mb-1">Lugar</span>
               <input
-                class="w-full text-sm px-3 py-2.5 rounded-lg border border-plum/20 bg-white text-ink"
+                class="w-full text-sm px-3 py-2.5 rounded-lg border border-primary/20 bg-white text-fg"
                 type="text"
                 [(ngModel)]="place"
                 name="place"
@@ -71,9 +71,9 @@ import { RoomService } from '../../../core/services/room.service';
               />
             </label>
             <label class="block">
-              <span class="block text-xs text-ink-soft mb-1">Notas (opcional)</span>
+              <span class="block text-xs text-fg-muted mb-1">Notas (opcional)</span>
               <textarea
-                class="w-full text-sm px-3 py-2.5 rounded-lg border border-plum/20 bg-white text-ink"
+                class="w-full text-sm px-3 py-2.5 rounded-lg border border-primary/20 bg-white text-fg"
                 [(ngModel)]="notes"
                 name="notes"
                 rows="2"
@@ -81,13 +81,13 @@ import { RoomService } from '../../../core/services/room.service';
             </label>
 
             @if (error()) {
-              <p class="text-coral-dark text-xs">{{ error() }}</p>
+              <p class="text-danger-dark text-xs">{{ error() }}</p>
             }
 
             <button
               type="submit"
               [disabled]="loading() || !name"
-              class="mt-2 bg-gold disabled:opacity-50 text-plum-dark font-semibold text-sm rounded-lg py-2.5"
+              class="mt-2 bg-accent disabled:opacity-50 text-canvas font-semibold text-sm rounded-lg py-2.5"
             >
               {{ loading() ? 'Creando…' : 'Crear sala' }}
             </button>

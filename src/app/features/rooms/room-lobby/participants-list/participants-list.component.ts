@@ -7,29 +7,29 @@ import { ParticipantResponse } from '../../../../core/models/models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <h2 class="font-display text-lg text-ink mb-1">Participantes</h2>
-    <p class="text-xs text-ink-soft mb-4">
+    <h2 class="font-display text-lg text-fg mb-1">Participantes</h2>
+    <p class="text-xs text-fg-muted mb-4">
       {{ readyCount() }} de {{ participants.length }} confirmaron que están listos.
     </p>
 
     <div class="flex flex-col gap-2">
       @for (p of participants; track p.userId) {
-        <div class="flex items-center justify-between bg-paper-dim rounded-lg px-3.5 py-2.5">
-          <span class="text-sm text-ink">{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</span>
+        <div class="flex items-center justify-between bg-surface-dim rounded-lg px-3.5 py-2.5">
+          <span class="text-sm text-fg">{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</span>
 
           <div class="flex items-center gap-2">
             @if (p.isMe && roomOpen) {
               <button
                 (click)="toggleReady.emit(p.status !== 'READY')"
                 class="text-xs px-2.5 py-1 rounded-full border"
-                [ngClass]="p.status === 'READY' ? 'bg-[#E4EDE6] text-pine-dark border-pine/30' : 'bg-[#F3E3DC] text-coral-dark border-coral/30'"
+                [ngClass]="p.status === 'READY' ? 'bg-[#E4EDE6] text-success-dark border-success/30' : 'bg-[#F3E3DC] text-danger-dark border-danger/30'"
               >
                 {{ p.status === 'READY' ? 'Listo ✓' : 'Marcarme listo' }}
               </button>
             } @else {
               <span
                 class="text-xs px-2 py-1 rounded-full"
-                [ngClass]="p.status === 'READY' ? 'bg-[#E4EDE6] text-pine-dark' : 'bg-[#F3E3DC] text-coral-dark'"
+                [ngClass]="p.status === 'READY' ? 'bg-[#E4EDE6] text-success-dark' : 'bg-[#F3E3DC] text-danger-dark'"
               >
                 {{ p.status === 'READY' ? 'Listo' : 'Pendiente' }}
               </span>
@@ -38,7 +38,7 @@ import { ParticipantResponse } from '../../../../core/models/models';
             @if (isAdmin && !p.isMe && roomOpen) {
               <button
                 (click)="removeParticipant.emit(p.userId)"
-                class="text-xs text-coral-dark"
+                class="text-xs text-danger-dark"
                 title="Eliminar de la sala"
               >
                 Eliminar
@@ -52,21 +52,21 @@ import { ParticipantResponse } from '../../../../core/models/models';
     @if (!isAdmin && roomOpen) {
       <button
         (click)="leave.emit()"
-        class="mt-4 text-xs text-coral-dark underline"
+        class="mt-4 text-xs text-danger-dark underline"
       >
         Salir de la sala
       </button>
     }
 
     @if (isAdmin) {
-      <div class="mt-5 bg-plum rounded-lg px-4 py-3.5">
-        <p class="text-xs text-paper/85">
+      <div class="mt-5 bg-primary rounded-lg px-4 py-3.5">
+        <p class="text-xs text-surface/85">
           El sorteo se habilita con al menos 3 participantes y todos en estado listo.
         </p>
         <button
           (click)="draw.emit()"
           [disabled]="!canDraw()"
-          class="mt-2.5 w-full bg-gold disabled:opacity-40 text-plum-dark font-semibold text-sm rounded-lg py-2.5"
+          class="mt-2.5 w-full bg-accent disabled:opacity-40 text-canvas font-semibold text-sm rounded-lg py-2.5"
         >
           {{ canDraw() ? 'Iniciar sorteo' : 'Esperando a todos' }}
         </button>

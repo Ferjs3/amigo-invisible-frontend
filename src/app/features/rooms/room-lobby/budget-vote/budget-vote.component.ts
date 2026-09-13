@@ -12,25 +12,25 @@ const POLL_INTERVAL_MS = 5000;
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <h2 class="font-display text-lg text-ink mb-1">Presupuesto</h2>
+    <h2 class="font-display text-lg text-fg mb-1">Presupuesto</h2>
 
     @if (status(); as s) {
       @if (!s.open) {
-        <p class="text-xs text-ink-soft mb-3">
+        <p class="text-xs text-fg-muted mb-3">
           Presupuesto actual: {{ s.currentBudget ? ('$' + s.currentBudget) : 'sin definir' }}
         </p>
         @if (isAdmin && roomOpen) {
           <button
             (click)="openVote()"
             [disabled]="loading()"
-            class="bg-plum text-paper rounded-lg px-4 py-2 text-xs"
+            class="bg-primary text-surface rounded-lg px-4 py-2 text-xs"
           >
             Abrir votación de presupuesto
           </button>
         }
       } @else if (s.tieVotePending) {
         @if (isAdmin) {
-          <p class="text-xs text-ink-soft mb-3">
+          <p class="text-xs text-fg-muted mb-3">
             Hay un empate entre estos montos. Elegí el definitivo (solo vos ves esta pantalla):
           </p>
           <div class="flex flex-wrap gap-2">
@@ -38,25 +38,25 @@ const POLL_INTERVAL_MS = 5000;
               <button
                 (click)="resolveTie(amount)"
                 [disabled]="loading()"
-                class="bg-gold text-plum-dark rounded-lg px-3.5 py-2 text-sm font-semibold"
+                class="bg-accent text-canvas rounded-lg px-3.5 py-2 text-sm font-semibold"
               >
                 &#36;{{ amount }}
               </button>
             }
           </div>
         } @else {
-          <p class="text-xs text-ink-soft italic">
+          <p class="text-xs text-fg-muted italic">
             Todos votaron y hubo un empate. El admin está eligiendo el monto final.
           </p>
         }
       } @else {
-        <p class="text-xs text-ink-soft mb-3">
+        <p class="text-xs text-fg-muted mb-3">
           {{ s.votedCount }} de {{ s.totalParticipants }} ya votaron. Tu voto es secreto, nadie ve qué elegiste.
         </p>
         <div class="flex gap-2">
           <select
             [(ngModel)]="selectedAmount"
-            class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-white text-ink"
+            class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-primary/20 bg-white text-fg"
           >
             <option [ngValue]="null">Elegí un monto</option>
             @for (opt of s.options; track opt) {
@@ -66,19 +66,19 @@ const POLL_INTERVAL_MS = 5000;
           <button
             (click)="vote()"
             [disabled]="!selectedAmount || loading()"
-            class="bg-plum disabled:opacity-40 text-paper rounded-lg px-4 text-sm"
+            class="bg-primary disabled:opacity-40 text-surface rounded-lg px-4 text-sm"
           >
             {{ s.myVote ? 'Cambiar voto' : 'Votar' }}
           </button>
         </div>
         @if (s.myVote) {
-          <p class="text-xs text-pine-dark mt-2">Ya votaste. Podés cambiarlo mientras falten votos.</p>
+          <p class="text-xs text-success-dark mt-2">Ya votaste. Podés cambiarlo mientras falten votos.</p>
         }
       }
     }
 
     @if (error()) {
-      <p class="text-xs text-coral-dark mt-2">{{ error() }}</p>
+      <p class="text-xs text-danger-dark mt-2">{{ error() }}</p>
     }
   `,
 })

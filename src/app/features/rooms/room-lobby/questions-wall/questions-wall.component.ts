@@ -10,22 +10,22 @@ import { AskedQuestionResponse, QuestionResponse } from '../../../../core/models
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <h2 class="font-display text-lg text-ink mb-1">Preguntas anónimas</h2>
-    <p class="text-xs text-ink-soft mb-4">
+    <h2 class="font-display text-lg text-fg mb-1">Preguntas anónimas</h2>
+    <p class="text-xs text-fg-muted mb-4">
       Todo acá es privado: solo vos ves lo que preguntaste, y solo vos ves lo que te preguntaron.
     </p>
 
     <!-- Hacer una pregunta: siempre a tu amigo invisible asignado, nunca a elegir -->
-    <div class="bg-paper-dim rounded-lg px-3.5 py-3 mb-5">
+    <div class="bg-surface-dim rounded-lg px-3.5 py-3 mb-5">
       @if (!roomSealed) {
-        <p class="text-xs text-ink-soft italic">
+        <p class="text-xs text-fg-muted italic">
           Vas a poder preguntarle algo a tu amigo invisible una vez que se haga el sorteo.
         </p>
       } @else if (myTargetName()) {
-        <p class="text-xs text-ink-soft mb-2">Preguntale algo a tu amigo invisible, sin firmar:</p>
+        <p class="text-xs text-fg-muted mb-2">Preguntale algo a tu amigo invisible, sin firmar:</p>
         <div class="flex gap-2">
           <input
-            class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-plum/20 bg-white text-ink"
+            class="flex-1 text-sm px-2.5 py-2 rounded-lg border border-primary/20 bg-white text-fg"
             type="text"
             [(ngModel)]="newQuestionText"
             name="newQuestion"
@@ -34,37 +34,37 @@ import { AskedQuestionResponse, QuestionResponse } from '../../../../core/models
           <button
             (click)="ask()"
             [disabled]="!newQuestionText.trim() || asking()"
-            class="bg-coral disabled:opacity-40 text-white rounded-lg px-4 text-sm shrink-0"
+            class="bg-danger disabled:opacity-40 text-white rounded-lg px-4 text-sm shrink-0"
           >
             Enviar
           </button>
         </div>
         @if (askError()) {
-          <p class="text-xs text-coral-dark mt-2">{{ askError() }}</p>
+          <p class="text-xs text-danger-dark mt-2">{{ askError() }}</p>
         }
       } @else {
-        <p class="text-xs text-ink-soft italic">Cargando tu asignación…</p>
+        <p class="text-xs text-fg-muted italic">Cargando tu asignación…</p>
       }
     </div>
 
     <!-- Lo que me preguntaron -->
-    <h3 class="text-sm font-semibold text-ink mb-2">Me preguntaron</h3>
+    <h3 class="text-sm font-semibold text-fg mb-2">Me preguntaron</h3>
     <div class="flex flex-col gap-2.5 mb-5 max-h-64 overflow-y-auto pr-1">
       @for (q of received(); track q.id) {
-        <div class="bg-paper-dim rounded-lg px-3.5 py-3">
-          <p class="text-sm text-ink italic">&ldquo;{{ q.questionText }}&rdquo;</p>
+        <div class="bg-surface-dim rounded-lg px-3.5 py-3">
+          <p class="text-sm text-fg italic">&ldquo;{{ q.questionText }}&rdquo;</p>
           @if (q.answered) {
-            <p class="text-sm text-pine-dark mt-1.5">→ {{ q.answerText }}</p>
+            <p class="text-sm text-success-dark mt-1.5">→ {{ q.answerText }}</p>
           } @else {
             <div class="flex gap-2 mt-2">
               <input
-                class="flex-1 text-sm px-2.5 py-1.5 rounded-lg border border-plum/20 bg-white text-ink"
+                class="flex-1 text-sm px-2.5 py-1.5 rounded-lg border border-primary/20 bg-white text-fg"
                 type="text"
                 [(ngModel)]="replyDrafts[q.id]"
                 [name]="'reply-' + q.id"
                 placeholder="Responder (sin saber quién preguntó)"
               />
-              <button (click)="answer(q.id)" class="bg-pine text-paper rounded-lg px-3 text-sm shrink-0">
+              <button (click)="answer(q.id)" class="bg-success text-surface rounded-lg px-3 text-sm shrink-0">
                 Enviar
               </button>
             </div>
@@ -72,26 +72,26 @@ import { AskedQuestionResponse, QuestionResponse } from '../../../../core/models
         </div>
       }
       @if (received().length === 0) {
-        <p class="text-xs text-ink-soft italic">Todavía no te preguntaron nada.</p>
+        <p class="text-xs text-fg-muted italic">Todavía no te preguntaron nada.</p>
       }
     </div>
 
     <!-- Lo que pregunté -->
-    <h3 class="text-sm font-semibold text-ink mb-2">Pregunté</h3>
+    <h3 class="text-sm font-semibold text-fg mb-2">Pregunté</h3>
     <div class="flex flex-col gap-2.5 max-h-64 overflow-y-auto pr-1">
       @for (q of asked(); track q.id) {
-        <div class="bg-paper-dim rounded-lg px-3.5 py-3">
-          <p class="text-xs text-ink-soft mb-1">A {{ q.targetUsername }}</p>
-          <p class="text-sm text-ink italic">&ldquo;{{ q.questionText }}&rdquo;</p>
+        <div class="bg-surface-dim rounded-lg px-3.5 py-3">
+          <p class="text-xs text-fg-muted mb-1">A {{ q.targetUsername }}</p>
+          <p class="text-sm text-fg italic">&ldquo;{{ q.questionText }}&rdquo;</p>
           @if (q.answered) {
-            <p class="text-sm text-pine-dark mt-1.5">→ {{ q.answerText }}</p>
+            <p class="text-sm text-success-dark mt-1.5">→ {{ q.answerText }}</p>
           } @else {
-            <p class="text-xs text-ink-soft italic mt-1.5">Sin responder todavía</p>
+            <p class="text-xs text-fg-muted italic mt-1.5">Sin responder todavía</p>
           }
         </div>
       }
       @if (asked().length === 0) {
-        <p class="text-xs text-ink-soft italic">Todavía no le preguntaste nada a nadie.</p>
+        <p class="text-xs text-fg-muted italic">Todavía no le preguntaste nada a nadie.</p>
       }
     </div>
   `,
