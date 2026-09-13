@@ -9,13 +9,13 @@
   --surface-dim: #FFE8DA;
 
   --primary: #EA7A54;
-  --accent: #E4572E;
+  --accent: #1E293B;
   --accent-dark: #D96841;
 
   --fg: #1E293B;
   --fg-muted: black;
 
-  --success: #10B981;
+  --success: blac;
   --success-dark: #059669;
   --danger: #EF4444;
   --danger-dark: #DC2626;
@@ -25,8 +25,9 @@ body {
   margin: 0;
   background: var(--canvas);
   color: var(--fg);
-font-family: Arial, Helvetica, sans-serif;}
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 .font-display {
-font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
