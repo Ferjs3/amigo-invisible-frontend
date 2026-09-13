@@ -1,0 +1,47 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <p class="auth-eyebrow">Amigo invisible</p>
+    <h1 class="auth-title">Iniciar sesión</h1>
+
+    <form (ngSubmit)="submit()" class="auth-form">
+      <label class="form-field">
+        <span class="form-label">Usuario</span>
+        <input class="form-input" type="text" [(ngModel)]="username" name="username" required />
+      </label>
+
+      <label class="form-field">
+        <span class="form-label">Contraseña</span>
+        <div class="password-field">
+          <input
+            class="form-input"
+            [type]="showPassword() ? 'text' : 'password'"
+            [(ngModel)]="password"
+            name="password"
+            required
+          />
+          <button
+            type="button"
+            (click)="showPassword.set(!showPassword())"
+            class="password-toggle"
+            [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            {{ showPassword() ? '🙈' : '👁' }}
+          </button>
+        </div>
+      </label>
+
+      @if (error()) {
+        <p class="field-error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="loading()" class="btn-primary">
+        {{ loading() ? 'Ingresando…' : 'Ingresar' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      ¿No tenés cuenta?
+      <a routerLink="/register" class="auth-link">Registrate</a>
+    </p>
+  </div>
+</div>

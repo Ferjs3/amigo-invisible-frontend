@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="panel">
+    <a routerLink="/rooms" class="back-link">&larr; Volver</a>
+
+    @if (!preview()) {
+      <h1 class="panel-title">Unirme a una sala</h1>
+      <p class="panel-subtitle">Pedile el código a quien organiza el sorteo.</p>
+
+      <label class="form-field mb-field">
+        <span class="form-label">Código de la sala</span>
+        <input
+          class="form-input code-input"
+          type="text"
+          [(ngModel)]="code"
+          name="code"
+          placeholder="Ej: 7F3K9Q"
+          maxlength="6"
+        />
+      </label>
+
+      @if (error()) {
+        <p class="field-error mb-field">{{ error() }}</p>
+      }
+
+      <button (click)="search()" [disabled]="loading() || code.trim().length < 4" class="btn-primary btn-block">
+        {{ loading() ? 'Buscando…' : 'Buscar sala' }}
+      </button>
+    } @else {
+      <p class="found-eyebrow">Encontramos esta sala</p>
+      <h1 class="panel-title panel-title--tight">{{ preview()!.name }}</h1>
+
+      <div class="preview-box">
+        <p class="preview-admin">Organiza {{ preview()!.adminUsername }}</p>
+        <div class="preview-meta">
+          <span>{{ preview()!.eventDate ? (preview()!.eventDate | date: 'dd/MM/yyyy') : 'sin fecha' }}</span>
+          <span>{{ preview()!.participantCount }} anotados</span>
+          @if (preview()!.suggestedBudget) {
+            <span>hasta {{ '$' + preview()!.suggestedBudget }}</span>
+          }
+        </div>
+      </div>
+
+      @if (!preview()!.canJoin) {
+        <p class="field-error mb-field">Esta sala ya sorteó, no se pueden sumar participantes.</p>
+      }
+
+      @if (error()) {
+        <p class="field-error mb-field">{{ error() }}</p>
+      }
+
+      <button (click)="confirmJoin()" [disabled]="loading() || !preview()!.canJoin" class="btn-primary btn-block">
+        {{ loading() ? 'Uniéndote…' : 'Unirme a esta sala' }}
+      </button>
+    }
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <p class="auth-eyebrow">Amigo invisible</p>
+    <h1 class="auth-title">Crear cuenta</h1>
+
+    <form (ngSubmit)="submit()" class="auth-form">
+      <label class="form-field">
+        <span class="form-label">Usuario</span>
+        <input class="form-input" type="text" [(ngModel)]="username" name="username" required />
+      </label>
+
+      <label class="form-field">
+        <span class="form-label">Email</span>
+        <input class="form-input" type="email" [(ngModel)]="email" name="email" required />
+      </label>
+
+      <label class="form-field">
+        <span class="form-label">Contraseña</span>
+        <div class="password-field">
+          <input
+            class="form-input"
+            [type]="showPassword() ? 'text' : 'password'"
+            [(ngModel)]="password"
+            name="password"
+            required
+            minlength="6"
+          />
+          <button
+            type="button"
+            (click)="showPassword.set(!showPassword())"
+            class="password-toggle"
+            [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            {{ showPassword() ? '🙈' : '👁' }}
+          </button>
+        </div>
+      </label>
+
+      @if (error()) {
+        <p class="field-error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="loading()" class="btn-primary">
+        {{ loading() ? 'Creando cuenta…' : 'Crear cuenta' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      ¿Ya tenés cuenta?
+      <a routerLink="/login" class="auth-link">Iniciá sesión</a>
+    </p>
+  </div>
+</div>

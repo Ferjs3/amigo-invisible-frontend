@@ -1,0 +1,32 @@
+<h2 class="section-heading">Restricciones</h2>
+<p class="section-subtitle">Definí quién no puede regalarle a quién antes de sortear.</p>
+
+<div class="exclusion-list">
+  @for (ex of exclusions(); track ex.id) {
+    <div class="exclusion-row">
+      <span>{{ ex.giverUsername }} no le regala a {{ ex.receiverUsername }}</span>
+      <button (click)="remove(ex.id)" class="link-danger">Quitar</button>
+    </div>
+  }
+  @if (exclusions().length === 0) {
+    <p class="hint-text hint-text--italic">Todavía no hay restricciones cargadas.</p>
+  }
+</div>
+
+<div class="exclusion-form">
+  <select [(ngModel)]="giverId" class="form-select">
+    <option [ngValue]="null">No puede regalarle...</option>
+    @for (p of participants; track p.userId) {
+      <option [ngValue]="p.userId">{{ p.username }}</option>
+    }
+  </select>
+  <select [(ngModel)]="receiverId" class="form-select">
+    <option [ngValue]="null">...a esta persona</option>
+    @for (p of participants; track p.userId) {
+      <option [ngValue]="p.userId">{{ p.username }}</option>
+    }
+  </select>
+  <button (click)="add()" [disabled]="!giverId || !receiverId || giverId === receiverId" class="btn-add">
+    Agregar
+  </button>
+</div>

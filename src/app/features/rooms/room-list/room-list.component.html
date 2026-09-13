@@ -1,0 +1,42 @@
+<div class="page">
+  <div class="panel">
+    <div class="panel-eyebrow-row">
+      <span class="panel-eyebrow">Amigo invisible</span>
+    </div>
+    <div class="panel-header">
+      <h1 class="panel-title">Hola, {{ authService.currentUser()?.username }}</h1>
+      <button (click)="authService.logout()" class="link-muted">Cerrar sesión</button>
+    </div>
+
+    <div class="actions-row">
+      <a routerLink="/rooms/new" class="btn-primary-solid">+ Crear sala</a>
+      <a routerLink="/rooms/join" class="btn-secondary-outline">Unirme con código</a>
+    </div>
+
+    <h2 class="section-title">Tus salas</h2>
+
+    @if (loading()) {
+      <p class="hint-text">Cargando…</p>
+    } @else if (rooms().length === 0) {
+      <p class="hint-text hint-text--italic">Todavía no sos parte de ninguna sala.</p>
+    } @else {
+      <div class="room-list">
+        @for (room of rooms(); track room.id) {
+          <a [routerLink]="['/rooms', room.id]" class="room-card">
+            <div class="room-card-header">
+              <div>
+                <p class="room-card-name">{{ room.name }}</p>
+                <p class="room-card-role">{{ room.isAdmin ? 'Sos el admin' : 'Participante' }}</p>
+              </div>
+              <span [class]="statusClass(room.status)">{{ statusLabel(room.status) }}</span>
+            </div>
+            <div class="room-card-meta">
+              <span>{{ room.eventDate ? (room.eventDate | date: 'dd/MM/yyyy') : 'sin fecha' }}</span>
+              <span>{{ room.participantCount }} personas</span>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<h2 class="section-heading">Presupuesto</h2>
+
+@if (status(); as s) {
+  @if (!s.open) {
+    <p class="hint-text">Presupuesto actual: {{ s.currentBudget ? ('$' + s.currentBudget) : 'sin definir' }}</p>
+    @if (isAdmin && roomOpen) {
+      <button (click)="openVote()" [disabled]="loading()" class="btn-open-vote">
+        Abrir votación de presupuesto
+      </button>
+    }
+  } @else if (s.tieVotePending) {
+    @if (isAdmin) {
+      <p class="hint-text">Hay un empate entre estos montos. Elegí el definitivo (solo vos ves esta pantalla):</p>
+      <div class="tie-options">
+        @for (amount of s.tiedAmounts; track amount) {
+          <button (click)="resolveTie(amount)" [disabled]="loading()" class="btn-tie-option">
+            &#36;{{ amount }}
+          </button>
+        }
+      </div>
+    } @else {
+      <p class="hint-text hint-text--italic">
+        Todos votaron y hubo un empate. El admin está eligiendo el monto final.
+      </p>
+    }
+  } @else {
+    <p class="hint-text">
+      {{ s.votedCount }} de {{ s.totalParticipants }} ya votaron. Tu voto es secreto, nadie ve qué elegiste.
+    </p>
+    <div class="vote-row">
+      <select [(ngModel)]="selectedAmount" class="form-select">
+        <option [ngValue]="null">Elegí un monto</option>
+        @for (opt of s.options; track opt) {
+          <option [ngValue]="opt">&#36;{{ opt }}</option>
+        }
+      </select>
+      <button (click)="vote()" [disabled]="!selectedAmount || loading()" class="btn-vote">
+        {{ s.myVote ? 'Cambiar voto' : 'Votar' }}
+      </button>
+    </div>
+    @if (s.myVote) {
+      <p class="already-voted">Ya votaste. Podés cambiarlo mientras falten votos.</p>
+    }
+  }
+}
+
+@if (error()) {
+  <p class="field-error">{{ error() }}</p>
+}

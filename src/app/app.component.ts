@@ -6,9 +6,7 @@ import { InstallButtonComponent } from './shared/install-button/install-button.c
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, InstallButtonComponent],
-  template: `
-    <router-outlet></router-outlet>
-    <app-install-button></app-install-button>
-  `,
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {}

@@ -1,0 +1,130 @@
+.section-heading {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  color: var(--fg);
+  margin: 0 0 4px;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin: 0 0 16px;
+}
+
+.subsection-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+  margin: 0 0 8px;
+}
+
+.ask-box {
+  background: var(--surface-dim);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+
+.ask-label {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin: 0 0 8px;
+}
+
+.ask-row {
+  display: flex;
+  gap: 8px;
+}
+
+.form-input {
+  flex: 1;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(43, 24, 48, 0.2);
+  background: #fff;
+  color: var(--fg);
+}
+
+.btn-ask {
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.btn-ask:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.field-error {
+  color: var(--danger-dark);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.hint-text {
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.hint-text--italic {
+  font-style: italic;
+}
+
+.question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-height: 256px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.question-card {
+  background: var(--surface-dim);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.question-target {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin: 0 0 4px;
+}
+
+.question-text {
+  font-size: 14px;
+  color: var(--fg);
+  font-style: italic;
+  margin: 0;
+}
+
+.question-answer {
+  font-size: 14px;
+  color: var(--success-dark);
+  margin: 6px 0 0;
+}
+
+.reply-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-reply {
+  background: var(--success);
+  color: var(--surface);
+  border: none;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}

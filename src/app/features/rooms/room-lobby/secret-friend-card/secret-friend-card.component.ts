@@ -6,32 +6,8 @@ import { RoomService } from '../../../../core/services/room.service';
   selector: 'app-secret-friend-card',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <h2 class="font-display text-lg text-fg mb-1">Le vas a regalar a</h2>
-    <p class="text-xs text-fg-muted mb-4">Sala sellada. Nadie más puede ver esta asignación.</p>
-
-    @if (loading()) {
-      <p class="text-sm text-fg-muted">Cargando…</p>
-    } @else if (error()) {
-      <p class="text-sm text-danger-dark">{{ error() }}</p>
-    } @else {
-      <div class="bg-primary rounded-2xl px-6 py-8 flex flex-col items-center gap-3.5">
-        <span class="text-accent text-lg">🔒</span>
-        <div class="font-display text-2xl text-surface min-h-[34px]" [ngClass]="revealed() ? '' : 'tracking-widest'">
-          {{ revealed() ? name() : '• • • • • • • • • •' }}
-        </div>
-        <button
-          (click)="revealed.set(!revealed())"
-          class="flex items-center gap-2 border border-accent/60 text-accent rounded-full px-4 py-2 text-xs"
-        >
-          {{ revealed() ? 'Ocultar' : 'Revelar' }}
-        </button>
-      </div>
-      <p class="text-xs text-fg-muted mt-3.5">
-        Tip: revisá el tablón de sugerencias de {{ revealed() ? name() : 'tu amigo invisible' }} para tener ideas de regalo.
-      </p>
-    }
-  `,
+  templateUrl: './secret-friend-card.component.html',
+  styleUrl: './secret-friend-card.component.css',
 })
 export class SecretFriendCardComponent implements OnInit {
   @Input({ required: true }) roomId!: number;

@@ -1,0 +1,70 @@
+<div class="page">
+  <div class="panel">
+    <a routerLink="/rooms" class="back-link">&larr; Volver</a>
+    <h1 class="panel-title">Crear una sala</h1>
+
+    @if (createdCode()) {
+      <div class="success-block">
+        <p class="hint-text">Sala creada. Compartí este código con tus invitados</p>
+        <div class="code-chip">{{ createdCode() }}</div>
+        <button (click)="goToRoom()" class="btn-primary btn-block">Ir a la sala</button>
+      </div>
+    } @else {
+      <form (ngSubmit)="submit()" class="form-stack">
+        <label class="form-field">
+          <span class="form-label">Nombre de la sala</span>
+          <input
+            class="form-input"
+            type="text"
+            [(ngModel)]="name"
+            name="name"
+            placeholder="Ej: Navidad con la familia"
+            required
+          />
+        </label>
+        <label class="form-field">
+          <span class="form-label">Presupuesto sugerido</span>
+          <input
+            class="form-input"
+            type="number"
+            [(ngModel)]="suggestedBudget"
+            name="suggestedBudget"
+            placeholder="Ej: 15000"
+          />
+        </label>
+        <label class="form-field">
+          <span class="form-label">Fecha del evento</span>
+          <input
+            class="form-input"
+            type="date"
+            [(ngModel)]="eventDate"
+            name="eventDate"
+            [min]="minDate"
+          />
+        </label>
+        <label class="form-field">
+          <span class="form-label">Lugar</span>
+          <input
+            class="form-input"
+            type="text"
+            [(ngModel)]="place"
+            name="place"
+            placeholder="Ej: Casa de Nacho"
+          />
+        </label>
+        <label class="form-field">
+          <span class="form-label">Notas (opcional)</span>
+          <textarea class="form-input" [(ngModel)]="notes" name="notes" rows="2"></textarea>
+        </label>
+
+        @if (error()) {
+          <p class="field-error">{{ error() }}</p>
+        }
+
+        <button type="submit" [disabled]="loading() || !name" class="btn-primary">
+          {{ loading() ? 'Creando…' : 'Crear sala' }}
+        </button>
+      </form>
+    }
+  </div>
+</div>

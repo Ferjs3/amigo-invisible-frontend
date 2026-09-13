@@ -1,33 +1,41 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* Variables globales de la identidad visual. Todo componente las usa via
+   var(--nombre) en su propio .component.css -- nunca hardcodees un hex
+   suelto en un componente, agregalo aca si hace falta un tono nuevo. */
+/* Paleta clara, moderna y limpia */
 :root {
-  --canvas: #D2E6EE;
+  /* Fondo general celeste pastel */
+  --canvas: #D8E7EE;
 
-  --surface: #FDEEE6;
-  --surface-dim: #FFE8DA;
+  /* Tarjetas y superficies (crema/beige muy suave) */
+  --surface: #FFF6F0;
+  --surface-dim: #FDE8DC;
 
-  --primary: #EA7A54;
-  --accent: #1E293B;
-  --accent-dark: #D96841;
+  /* Color principal (naranja cálido para botones y acciones) */
+  --primary: #E76F44;
+  --primary-dark: #D45D33;
 
-  --fg: #1E293B;
-  --fg-muted: black;
+  /* Textos */
+  --fg: #2C3E50;
+  --fg-muted: #6B7C8E;
 
-  --success: blac;
-  --success-dark: #059669;
-  --danger: #EF4444;
-  --danger-dark: #DC2626;
+  /* Estados y badges */
+  --tag-sellada-bg: #F5DEC8;
+  --tag-sellada-txt: #A8622A;
+  --success: #3F6C51;
+  --danger: #C9634A;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background: var(--canvas);
+  background-color: var(--canvas);
   color: var(--fg);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .font-display {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Georgia, 'Times New Roman', serif;
 }

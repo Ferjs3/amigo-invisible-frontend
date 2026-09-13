@@ -36,15 +36,25 @@ features/
       exclusions-manager/    -> restricciones antes del sorteo (admin)
       secret-friend-card/    -> el toggle del ojo, oculta/revela la asignación
       wishlist-board/        -> tablón de sugerencias, CRUD del propio
-      questions-wall/        -> preguntas anónimas por muro
+      questions-wall/        -> preguntas privadas (a tu amigo invisible asignado)
+      budget-vote/            -> votación de presupuesto con desempate del admin
 ```
+
+Cada componente tiene sus 3 archivos separados: `.component.ts` (lógica),
+`.component.html` (template) y `.component.css` (estilos, con CSS nativo).
 
 ## Identidad visual
 
-Paleta ciruela + papel + dorado (`styles.css` / `tailwind.config.js`), pensada como un
-ticket/invitación sellada: el corazón de la app es el secreto y la revelación, no un
-dashboard genérico. Si querés ajustar colores o tipografía, están centralizados en esos
-dos archivos.
+CSS nativo (sin Tailwind), con variables globales en `src/styles.css`
+(`--primary`, `--canvas`, `--surface`, `--surface-dim`, `--fg`, `--fg-muted`,
+`--accent`, `--success`, `--danger`, y sus variantes `-dark`). Cada componente
+las usa vía `var(--nombre)` en su propio `.component.css`. Los nombres son por
+**rol** (qué hacen), no por apariencia, para que sigan teniendo sentido si el
+color real cambia.
+
+Paleta actual: ciruela + papel + dorado, pensada como un ticket/invitación
+sellada — el corazón de la app es el secreto y la revelación, no un dashboard
+genérico.
 
 ## Notas
 

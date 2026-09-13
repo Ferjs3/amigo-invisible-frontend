@@ -1,0 +1,73 @@
+<h2 class="section-heading">Preguntas anónimas</h2>
+<p class="section-subtitle">
+  Todo acá es privado: solo vos ves lo que preguntaste, y solo vos ves lo que te preguntaron.
+</p>
+
+<div class="ask-box">
+  @if (!roomSealed) {
+    <p class="hint-text hint-text--italic">
+      Vas a poder preguntarle algo a tu amigo invisible una vez que se haga el sorteo.
+    </p>
+  } @else if (myTargetName()) {
+    <p class="ask-label">Preguntale algo a tu amigo invisible, sin firmar:</p>
+    <div class="ask-row">
+      <input
+        class="form-input"
+        type="text"
+        [(ngModel)]="newQuestionText"
+        name="newQuestion"
+        placeholder="Ej: ¿Talle de remera?"
+      />
+      <button (click)="ask()" [disabled]="!newQuestionText.trim() || asking()" class="btn-ask">Enviar</button>
+    </div>
+    @if (askError()) {
+      <p class="field-error">{{ askError() }}</p>
+    }
+  } @else {
+    <p class="hint-text hint-text--italic">Cargando tu asignación…</p>
+  }
+</div>
+
+<h3 class="subsection-heading">Me preguntaron</h3>
+<div class="question-list">
+  @for (q of received(); track q.id) {
+    <div class="question-card">
+      <p class="question-text">&ldquo;{{ q.questionText }}&rdquo;</p>
+      @if (q.answered) {
+        <p class="question-answer">→ {{ q.answerText }}</p>
+      } @else {
+        <div class="reply-row">
+          <input
+            class="form-input"
+            type="text"
+            [(ngModel)]="replyDrafts[q.id]"
+            [name]="'reply-' + q.id"
+            placeholder="Responder (sin saber quién preguntó)"
+          />
+          <button (click)="answer(q.id)" class="btn-reply">Enviar</button>
+        </div>
+      }
+    </div>
+  }
+  @if (received().length === 0) {
+    <p class="hint-text hint-text--italic">Todavía no te preguntaron nada.</p>
+  }
+</div>
+
+<h3 class="subsection-heading">Pregunté</h3>
+<div class="question-list">
+  @for (q of asked(); track q.id) {
+    <div class="question-card">
+      <p class="question-target">A {{ q.targetUsername }}</p>
+      <p class="question-text">&ldquo;{{ q.questionText }}&rdquo;</p>
+      @if (q.answered) {
+        <p class="question-answer">→ {{ q.answerText }}</p>
+      } @else {
+        <p class="hint-text hint-text--italic">Sin responder todavía</p>
+      }
+    </div>
+  }
+  @if (asked().length === 0) {
+    <p class="hint-text hint-text--italic">Todavía no le preguntaste nada a nadie.</p>
+  }
+</div>

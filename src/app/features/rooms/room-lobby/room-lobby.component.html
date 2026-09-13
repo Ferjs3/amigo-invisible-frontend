@@ -1,0 +1,118 @@
+@if (room()) {
+  <div class="page">
+    <div class="lobby-container">
+      <!-- Header estilo ticket -->
+      <div class="ticket-header">
+        <div class="ticket-header-top">
+          <a routerLink="/rooms" class="back-link">&larr; Mis salas</a>
+          @if (room()!.isAdmin) {
+            <button (click)="confirmAction.set('delete')" class="link-danger">Eliminar sala</button>
+          }
+        </div>
+        <p class="ticket-eyebrow">Sala de amigo invisible</p>
+        <div class="ticket-title-row">
+          <h1 class="ticket-title">{{ room()!.name }}</h1>
+          <button (click)="copyCode()" class="code-chip" title="Copiar código">
+            {{ room()!.code }}
+            <span class="code-chip-status">{{ copied() ? '✓ copiado' : '⧉' }}</span>
+          </button>
+        </div>
+        <div class="ticket-meta">
+          <span>{{ room()!.eventDate ? (room()!.eventDate | date: 'dd/MM/yyyy') : 'sin fecha' }}</span>
+          <span>{{ room()!.place ?? 'sin lugar definido' }}</span>
+          @if (room()!.suggestedBudget) {
+            <span>hasta &#36;{{ room()!.suggestedBudget }}</span>
+          }
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs-row">
+        @for (t of tabs; track t.id) {
+          <button (click)="tab.set(t.id)" class="tab-button" [class.tab-button--active]="tab() === t.id">
+            {{ t.label }}
+          </button>
+        }
+      </div>
+
+      @if (error()) {
+        <div class="lobby-error-bar">
+          <p class="field-error">{{ error() }}</p>
+        </div>
+      }
+
+      <!-- Body -->
+      <div class="lobby-body">
+        @switch (tab()) {
+          @case ('resumen') {
+            <app-participants-list
+              [participants]="room()!.participants"
+              [isAdmin]="room()!.isAdmin"
+              [roomOpen]="room()!.status === 'OPEN'"
+              (draw)="confirmAction.set('draw')"
+              (toggleReady)="onToggleReady($event)"
+              (removeParticipant)="onRemoveParticipant($event)"
+              (leave)="onLeave()"
+            />
+            <div class="lobby-section-divider">
+              <app-budget-vote
+                [roomId]="room()!.id"
+                [isAdmin]="room()!.isAdmin"
+                [roomOpen]="room()!.status === 'OPEN'"
+              />
+            </div>
+            @if (room()!.isAdmin && room()!.status === 'OPEN') {
+              <div class="lobby-section-divider">
+                <app-exclusions-manager [roomId]="room()!.id" [participants]="room()!.participants" />
+              </div>
+            }
+          }
+          @case ('amigo') {
+            @if (room()!.status === 'SEALED') {
+              <app-secret-friend-card [roomId]="room()!.id" />
+            } @else {
+              <p class="hint-text hint-text--italic">Todavía no se hizo el sorteo en esta sala.</p>
+            }
+          }
+          @case ('tablon') {
+            <app-wishlist-board [roomId]="room()!.id" [participants]="room()!.participants" />
+          }
+          @case ('preguntas') {
+            <app-questions-wall [roomId]="room()!.id" [roomSealed]="room()!.status === 'SEALED'" />
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmacion (sorteo / eliminar sala) -->
+  @if (confirmAction()) {
+    <div class="modal-overlay">
+      <div class="modal-card">
+        @if (confirmAction() === 'draw') {
+          <h2 class="modal-title">¿Iniciar el sorteo?</h2>
+          <p class="modal-text">
+            Esta acción es <strong>definitiva</strong>. Una vez que sortees, la lista de
+            participantes queda bloqueada: nadie va a poder sumarse, salir ni ser eliminado.
+          </p>
+        } @else {
+          <h2 class="modal-title">¿Eliminar esta sala?</h2>
+          <p class="modal-text">
+            Se borra por completo, junto con el tablón, las preguntas y el sorteo si ya se hizo.
+            <strong>No se puede deshacer.</strong>
+          </p>
+        }
+        <div class="modal-actions">
+          <button (click)="confirmAction.set(null)" class="btn-modal-cancel">Cancelar</button>
+          <button (click)="confirmAction() === 'draw' ? onDraw() : onDeleteRoom()" class="btn-modal-confirm">
+            {{ confirmAction() === 'draw' ? 'Sí, sortear' : 'Sí, eliminar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+} @else if (error()) {
+  <div class="page page--centered">
+    <p class="page-error-text">{{ error() }}</p>
+  </div>
+}
