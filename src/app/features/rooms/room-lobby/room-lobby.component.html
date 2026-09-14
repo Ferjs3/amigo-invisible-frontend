@@ -18,10 +18,10 @@
           </button>
         </div>
         <div class="ticket-meta">
-          <span>{{ room()!.eventDate ? (room()!.eventDate | date: 'dd/MM/yyyy') : 'sin fecha' }}</span>
-          <span>{{ room()!.place ?? 'Sin lugar definido' }}</span>
+          <span>{{ room()!.eventDate ? (room()!.eventDate | date: 'dd/MM/yyyy') : 'Sin fecha' }}</span>
+          <span>{{ room()!.place ?? ' Sin lugar definido' }}</span>
           @if (room()!.suggestedBudget) {
-            <span>hasta &#36;{{ room()!.suggestedBudget }}</span>
+            <span>Hasta &#36;{{ room()!.suggestedBudget }}</span>
           }
         </div>
       </div>
