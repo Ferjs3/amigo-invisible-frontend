@@ -14,12 +14,12 @@
           <h1 class="ticket-title">{{ room()!.name }}</h1>
           <button (click)="copyCode()" class="code-chip" title="Copiar código">
             {{ room()!.code }}
-            <span class="code-chip-status">{{ copied() ? '✓ copiado' : '⧉' }}</span>
+            <span class="code-chip-status">{{ copied() ? '✓ Copiado' : '⧉' }}</span>
           </button>
         </div>
         <div class="ticket-meta">
           <span>{{ room()!.eventDate ? (room()!.eventDate | date: 'dd/MM/yyyy') : 'sin fecha' }}</span>
-          <span>{{ room()!.place ?? 'sin lugar definido' }}</span>
+          <span>{{ room()!.place ?? 'Sin lugar definido' }}</span>
           @if (room()!.suggestedBudget) {
             <span>hasta &#36;{{ room()!.suggestedBudget }}</span>
           }

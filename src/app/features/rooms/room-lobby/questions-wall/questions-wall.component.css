@@ -1,18 +1,17 @@
 .section-heading {
-  font-family: Georgia, serif;
   font-size: 18px;
   color: var(--fg);
   margin: 0 0 4px;
 }
 
 .section-subtitle {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
   margin: 0 0 16px;
 }
 
 .subsection-heading {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--fg);
   margin: 0 0 8px;
@@ -26,7 +25,7 @@
 }
 
 .ask-label {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
   margin: 0 0 8px;
 }
@@ -69,7 +68,7 @@
 }
 
 .hint-text {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
 }
 
@@ -94,7 +93,7 @@
 }
 
 .question-target {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
   margin: 0 0 4px;
 }

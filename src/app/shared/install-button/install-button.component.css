@@ -12,10 +12,11 @@
   justify-content: space-between;
   gap: 12px;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+  max-width: 100%;
 }
 
 .install-bar-text {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .install-bar-actions {
@@ -26,9 +27,9 @@
 }
 
 .btn-install {
-  background: var(--accent);
-  color: var(--canvas);
-  font-size: 12px;
+  background: var(--surface);
+  color: var(--primary);
+  font-size: 14px;
   font-weight: 600;
   border: none;
   border-radius: 8px;
@@ -71,7 +72,6 @@
 }
 
 .ios-title {
-  font-family: Georgia, serif;
   font-size: 18px;
   color: var(--fg);
   margin: 0 0 12px;

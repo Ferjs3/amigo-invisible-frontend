@@ -99,7 +99,7 @@
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: var(--primary);
   color: var(--canvas);
   font-weight: 600;
   font-size: 14px;

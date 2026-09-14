@@ -16,15 +16,12 @@
 }
 
 .auth-eyebrow {
-  font-family: Georgia, serif;
-  font-style: italic;
   color: var(--fg-muted);
   font-size: 12px;
   margin: 0 0 4px;
 }
 
 .auth-title {
-  font-family: Georgia, serif;
   font-size: 24px;
   color: var(--fg);
   margin: 0 0 20px;
@@ -87,7 +84,7 @@
 
 .btn-primary {
   margin-top: 8px;
-  background: var(--accent);
+  background: var(--primary);
   color: var(--canvas);
   font-weight: 600;
   font-size: 14px;

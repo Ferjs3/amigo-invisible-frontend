@@ -34,7 +34,7 @@
 }
 
 .back-link {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
   text-decoration: none;
 }
@@ -42,16 +42,14 @@
 .link-danger {
   background: none;
   border: none;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--danger-dark);
   cursor: pointer;
   padding: 0;
 }
 
 .ticket-eyebrow {
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
   margin: 8px 0 0;
 }
@@ -64,7 +62,6 @@
 }
 
 .ticket-title {
-  font-family: Georgia, serif;
   font-size: 24px;
   color: var(--fg);
   margin: 0;
@@ -72,22 +69,21 @@
 
 .code-chip {
   background: var(--primary);
-  color: var(--accent);
+  color: var(--fg);
   border: none;
   border-radius: 8px;
   padding: 6px 12px;
-  font-family: Georgia, serif;
-  font-size: 14px;
+  font-size: 22px;
   letter-spacing: 3px;
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .code-chip-status {
-  font-size: 10px;
-  font-family: system-ui, sans-serif;
+  font-size: 12px;
   letter-spacing: normal;
   opacity: 0.8;
 }
@@ -97,7 +93,7 @@
   flex-wrap: wrap;
   gap: 8px 20px;
   margin-top: 14px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
 }
 
@@ -113,11 +109,11 @@
   align-items: center;
   gap: 6px;
   padding: 12px 10px;
-  font-size: 14px;
+  font-size: 18px;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  color: var(--fg-muted);
+  color: var(--fg);
   cursor: pointer;
 }
 
@@ -180,7 +176,6 @@
 }
 
 .modal-title {
-  font-family: Georgia, serif;
   font-size: 18px;
   color: var(--fg);
   margin: 0 0 8px;

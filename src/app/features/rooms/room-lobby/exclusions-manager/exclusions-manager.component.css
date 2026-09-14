@@ -1,5 +1,4 @@
 .section-heading {
-  font-family: Georgia, serif;
   font-size: 18px;
   color: var(--fg);
   margin: 0 0 4px;
@@ -50,6 +49,22 @@
 .exclusion-form {
   display: flex;
   gap: 8px;
+}
+@media (max-width: 560px) {
+  .exclusion-form {
+    display: flex;  
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .form-select{
+    width: 80%;
+  }
+  .btn-add{
+    width: 40%;
+    height: 30px;
+  }
 }
 
 .form-select {

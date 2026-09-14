@@ -20,10 +20,8 @@
 }
 
 .panel-eyebrow {
-  font-family: Georgia, serif;
-  font-style: italic;
   color: var(--fg-muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .panel-header {
@@ -34,7 +32,6 @@
 }
 
 .panel-title {
-  font-family: Georgia, serif;
   font-size: 24px;
   color: var(--fg);
   margin: 0;
@@ -43,7 +40,7 @@
 .link-muted {
   background: none;
   border: none;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
   text-decoration: underline;
   cursor: pointer;
@@ -78,11 +75,10 @@
 .btn-secondary-outline {
   border: 1px solid rgba(43, 24, 48, 0.4);
   color: var(--primary);
-  background: transparent;
+  background: var(--surface);
 }
 
 .section-title {
-  font-family: Georgia, serif;
   font-size: 16px;
   color: var(--fg);
   margin: 0 0 8px;
@@ -130,7 +126,7 @@
 }
 
 .room-card-role {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--fg-muted);
   margin: 2px 0 0;
 }
@@ -150,13 +146,13 @@
 }
 
 .tag-estado--abierta {
-  background: var(--success-bg);
-  color: var(--success-dark);
+  background: var(--success);
+  color: var(--surface);
 }
 
 .tag-estado--sellada {
-  background: var(--accent-bg);
-  color: var(--accent-dark);
+  background: var(--danger);
+  color: var(--surface);
 }
 
 .tag-estado--descartada {

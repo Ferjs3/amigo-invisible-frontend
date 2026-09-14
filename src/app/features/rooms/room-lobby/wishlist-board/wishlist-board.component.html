@@ -10,7 +10,7 @@
         @for (item of itemsByUser[p.userId] ?? []; track item.id) {
           <div class="wishlist-item">
             <span>
-              · {{ item.title }}
+              🎁 {{ item.title }}
               @if (item.note) {
                 <span class="wishlist-item-note"> — {{ item.note }}</span>
               }

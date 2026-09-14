@@ -1,12 +1,11 @@
 .section-heading {
-  font-family: Georgia, serif;
   font-size: 18px;
   color: var(--fg);
   margin: 0 0 4px;
 }
 
 .section-subtitle {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-muted);
   margin: 0 0 16px;
 }
@@ -27,7 +26,8 @@
 }
 
 .participant-name {
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: bold;
   color: var(--fg);
 }
 
@@ -46,14 +46,14 @@
 }
 
 .ready-toggle--on {
-  background: var(--success-bg);
-  color: var(--success-dark);
+  background: var(--success);
+  color: var(--surface);
   border-color: rgba(63, 108, 81, 0.3);
 }
 
 .ready-toggle--off {
-  background: var(--danger-bg);
-  color: var(--danger-dark);
+  background: var(--danger);
+  color: var(--surface);
   border-color: rgba(201, 99, 74, 0.3);
 }
 
@@ -99,6 +99,10 @@
   background: var(--primary);
   border-radius: 8px;
   padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .draw-hint {
@@ -109,9 +113,9 @@
 
 .draw-button {
   margin-top: 10px;
-  width: 100%;
-  background: var(--accent);
-  color: var(--canvas);
+  width: 50%;
+  background: var(--fg);
+  color: var(--surface);
   font-weight: 600;
   font-size: 14px;
   border: none;
