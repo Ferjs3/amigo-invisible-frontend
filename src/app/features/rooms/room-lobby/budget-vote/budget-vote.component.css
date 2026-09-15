@@ -1,27 +1,5 @@
-.section-heading {
-  font-size: 18px;
-  color: var(--fg);
-  margin: 0 0 4px;
-}
-
-.hint-text {
-  font-size: 14px;
-  color: var(--fg-muted);
-  margin: 0 0 12px;
-}
-
-.hint-text--italic {
-  font-style: italic;
-}
-
-.btn-open-vote {
-  background: var(--primary);
-  color: var(--surface);
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
+.budget-line {
+  margin-bottom: 12px;
 }
 
 .tie-options {
@@ -30,55 +8,12 @@
   gap: 8px;
 }
 
-.btn-tie-option {
-  background: var(--accent);
-  color: var(--canvas);
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.vote-row {
+.ask-row {
   display: flex;
   gap: 8px;
 }
 
-.form-select {
-  flex: 1;
-  font-size: 14px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(43, 24, 48, 0.2);
-  background: #fff;
-  color: var(--fg);
-}
-
-.btn-vote {
-  background: var(--primary);
-  color: var(--surface);
-  border: none;
-  border-radius: 8px;
-  padding: 0 16px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.btn-vote:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
 .already-voted {
-  font-size: 12px;
-  color: var(--success-dark);
-  margin-top: 8px;
-}
-
-.field-error {
-  font-size: 12px;
-  color: var(--danger-dark);
+  color: var(--success);
   margin-top: 8px;
 }

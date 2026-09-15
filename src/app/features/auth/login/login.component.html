@@ -1,9 +1,9 @@
-<div class="auth-page">
-  <div class="auth-card">
-    <p class="auth-eyebrow">Amigo invisible</p>
-    <h1 class="auth-title">Iniciar sesión</h1>
+<div class="page page--centered">
+  <div class="panel">
+    <p class="eyebrow">Amigo invisible</p>
+    <h1 class="title">Iniciar sesión</h1>
 
-    <form (ngSubmit)="submit()" class="auth-form">
+    <form (ngSubmit)="submit()" class="form-stack">
       <label class="form-field">
         <span class="form-label">Usuario</span>
         <input class="form-input" type="text" [(ngModel)]="username" name="username" required />
@@ -34,14 +34,14 @@
         <p class="field-error">{{ error() }}</p>
       }
 
-      <button type="submit" [disabled]="loading()" class="btn-primary">
+      <button type="submit" [disabled]="loading()" class="btn btn--primary btn--block">
         {{ loading() ? 'Ingresando…' : 'Ingresar' }}
       </button>
     </form>
 
-    <p class="auth-footer">
+    <p class="footer-note">
       ¿No tenés cuenta?
-      <a routerLink="/register" class="auth-link">Registrate</a>
+      <a routerLink="/register" class="link link--primary">Registrate</a>
     </p>
   </div>
 </div>

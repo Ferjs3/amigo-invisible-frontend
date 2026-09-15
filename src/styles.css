@@ -1,28 +1,20 @@
-/* Variables globales de la identidad visual. Todo componente las usa via
-   var(--nombre) en su propio .component.css -- nunca hardcodees un hex
-   suelto en un componente, agregalo aca si hace falta un tono nuevo. */
-/* Paleta clara, moderna y limpia */
+/* ============================================================
+   VARIABLES GLOBALES
+   9 variables nada mas. Todo componente las usa via var(--nombre)
+   en su propio .component.css. Los tonos "clarito" de los chips
+   de estado NO se guardan aparte: se calculan al vuelo con
+   color-mix() a partir de estas mismas 9, mas abajo en .tag.
+   ============================================================ */
 :root {
-  /* Fondo general celeste pastel */
-  --canvas: #D8E7EE;
-
-  /* Tarjetas y superficies (crema/beige muy suave) */
-  --surface: #FFF6F0;
-  --surface-dim: #FDE8DC;
-
-  /* Color principal (naranja cálido para botones y acciones) */
-  --primary: #E76F44;
-  --primary-dark: #D45D33;
-
-  /* Textos */
-  --fg: #2C3E50;
-  --fg-muted: #6B7C8E;
-
-  /* Estados y badges */
-  --tag-sellada-bg: #F5DEC8;
-  --tag-sellada-txt: #A8622A;
-  --success: #3F6C51;
-  --danger: #C22D30;
+  --canvas: #D8E7EE;       /* fondo general de toda la app */
+  --surface: #FFF6F0;      /* fondo de tarjetas/paneles */
+  --surface-dim: #FDE8DC;  /* fondo de filas dentro de una tarjeta */
+  --primary: #E76F44;      /* color de accion: botones, links, destacados */
+  --primary-dark: #D45D33; /* variante mas oscura de primary (headers, hover) */
+  --fg: #2C3E50;           /* texto principal */
+  --fg-muted: #6B7C8E;     /* texto secundario/gris */
+  --success: #3F6C51;      /* estados positivos: listo, respuestas */
+  --danger: #C22D30;       /* alertas, acciones destructivas */
 }
 
 * {
@@ -38,4 +30,327 @@ body {
 
 .font-display {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ============================================================
+   LAYOUT COMPARTIDO
+   Usado por: room-list, room-create, room-join, room-lobby, auth
+   ============================================================ */
+.page {
+  min-height: 100vh;
+  background: var(--canvas);
+  padding: 32px 16px;
+}
+
+.page--centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel {
+  max-width: 448px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.panel--wide {
+  max-width: 512px;
+}
+
+.surface-block {
+  background: var(--surface-dim);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+/* ============================================================
+   TIPOGRAFIA COMPARTIDA
+   ============================================================ */
+.eyebrow {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--fg-muted);
+  margin: 0 0 4px;
+}
+
+.title {
+  font-size: 24px;
+  color: var(--fg);
+  margin: 0 0 20px;
+}
+
+.title--tight {
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--fg-muted);
+  margin: 0 0 20px;
+}
+
+.section-heading {
+  font-size: 18px;
+  color: var(--fg);
+  margin: 0 0 4px;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin: 0 0 16px;
+}
+
+.subsection-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+  margin: 0 0 8px;
+}
+
+.hint-text {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.hint-text--lg {
+  font-size: 14px;
+}
+
+.hint-text--italic {
+  font-style: italic;
+}
+
+.hint-text--error {
+  color: var(--danger);
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 12px;
+  margin: 0;
+}
+
+.back-link {
+  font-size: 12px;
+  color: var(--fg-muted);
+  text-decoration: none;
+}
+
+/* ============================================================
+   FORMULARIOS COMPARTIDOS
+   ============================================================ */
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-field {
+  display: block;
+}
+
+.form-field + .form-field {
+  margin-top: 0;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-bottom: 4px;
+}
+
+.form-input,
+.form-select,
+textarea.form-input {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(44, 62, 80, 0.2);
+  background: #fff;
+  color: var(--fg);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.form-input--uppercase {
+  text-transform: uppercase;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field .form-input {
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  padding: 0 12px;
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ============================================================
+   BOTONES COMPARTIDOS
+   Un solo sistema con modificadores en vez de una clase por boton.
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--sm {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+.btn--outline {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn--danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn--success {
+  background: var(--success);
+  color: var(--surface);
+}
+
+.btn--dark {
+  background: var(--fg);
+  color: var(--surface);
+}
+
+/* botones-link: se ven como texto, actuan como boton */
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.link--danger {
+  color: var(--danger);
+}
+
+.link--muted {
+  color: var(--fg-muted);
+  text-decoration: underline;
+}
+
+.link--primary {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.footer-note {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* ============================================================
+   CHIPS / TAGS DE ESTADO
+   Los tonos clarito de fondo se calculan con color-mix(), no
+   hace falta guardar un --xxx-bg por cada estado.
+   ============================================================ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.tag--success {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 16%, white);
+}
+
+.tag--danger {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 14%, white);
+}
+
+.tag--primary {
+  color: var(--primary-dark);
+  background: color-mix(in srgb, var(--primary) 18%, white);
+}
+
+/* ============================================================
+   LISTAS DE ITEMS (participantes, sugerencias, preguntas, etc.)
+   ============================================================ */
+.list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-dim);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--fg);
+}
+
+/* ============================================================
+   MODAL COMPARTIDO
+   Usado por: install-button (ayuda iOS), room-lobby (confirmaciones)
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  z-index: 50;
 }

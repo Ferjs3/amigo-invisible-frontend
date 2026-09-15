@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 40;
-  background: var(--primary);
+  background: var(--primary-dark);
   color: var(--surface);
   padding: 12px 16px;
   display: flex;
@@ -12,11 +12,10 @@
   justify-content: space-between;
   gap: 12px;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
-  max-width: 100%;
 }
 
 .install-bar-text {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .install-bar-actions {
@@ -26,55 +25,14 @@
   flex-shrink: 0;
 }
 
-.btn-install {
-  background: var(--surface);
-  color: var(--primary);
-  font-size: 14px;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-}
-
-.btn-dismiss {
-  background: none;
-  border: none;
-  color: rgba(243, 236, 221, 0.6);
+.install-dismiss {
+  color: color-mix(in srgb, var(--surface) 65%, transparent);
   font-size: 14px;
   padding: 0 4px;
-  cursor: pointer;
 }
 
-.ios-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background: rgba(29, 16, 34, 0.8);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0 16px;
-}
-
-@media (min-width: 640px) {
-  .ios-overlay {
-    align-items: center;
-  }
-}
-
-.ios-sheet {
-  background: var(--surface);
-  border-radius: 16px;
-  padding: 24px;
-  max-width: 384px;
-  width: 100%;
-}
-
-.ios-title {
-  font-size: 18px;
-  color: var(--fg);
-  margin: 0 0 12px;
+.modal-sheet {
+  margin: 0 16px;
 }
 
 .ios-steps {
@@ -84,17 +42,5 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 0;
-}
-
-.btn-ios-ok {
-  margin-top: 20px;
-  width: 100%;
-  border: 1px solid rgba(43, 24, 48, 0.3);
-  color: var(--primary);
-  background: none;
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 14px;
-  cursor: pointer;
+  margin: 0 0 20px;
 }

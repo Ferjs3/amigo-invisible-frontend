@@ -3,25 +3,25 @@
 
 <div class="participant-list">
   @for (p of participants; track p.userId) {
-    <div class="participant-row">
-      <span class="participant-name">{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</span>
+    <div class="list-row">
+      <span>{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</span>
 
       <div class="participant-actions">
         @if (p.isMe && roomOpen) {
           <button
             (click)="toggleReady.emit(p.status !== 'READY')"
-            [class]="p.status === 'READY' ? 'ready-toggle ready-toggle--on' : 'ready-toggle ready-toggle--off'"
+            [class]="p.status === 'READY' ? 'tag tag--success ready-toggle' : 'tag tag--danger ready-toggle'"
           >
             {{ p.status === 'READY' ? 'Listo ✓' : 'Marcarme listo' }}
           </button>
         } @else {
-          <span [class]="p.status === 'READY' ? 'tag-estado tag-estado--abierta' : 'tag-estado tag-estado--descartada'">
+          <span [class]="p.status === 'READY' ? 'tag tag--success' : 'tag tag--danger'">
             {{ p.status === 'READY' ? 'Listo' : 'Pendiente' }}
           </span>
         }
 
         @if (isAdmin && !p.isMe && roomOpen) {
-          <button (click)="removeParticipant.emit(p.userId)" class="link-danger" title="Eliminar de la sala">
+          <button (click)="removeParticipant.emit(p.userId)" class="link link--danger" title="Eliminar de la sala">
             Eliminar
           </button>
         }
@@ -31,13 +31,15 @@
 </div>
 
 @if (!isAdmin && roomOpen) {
-  <button (click)="leave.emit()" class="leave-link">Salir de la sala</button>
+  <button (click)="leave.emit()" class="link link--danger leave-link">Salir de la sala</button>
 }
 
 @if (isAdmin) {
   <div class="draw-box">
-    <p class="draw-hint">El sorteo se habilita con al menos 3 participantes y todos en estado listo.</p>
-    <button (click)="draw.emit()" [disabled]="!canDraw()" class="draw-button">
+    <p class="hint-text draw-hint">
+      El sorteo se habilita con al menos 3 participantes y todos en estado listo.
+    </p>
+    <button (click)="draw.emit()" [disabled]="!canDraw()" class="btn btn--primary btn--block draw-button">
       {{ canDraw() ? 'Iniciar sorteo' : 'Esperando a todos' }}
     </button>
   </div>

@@ -1,13 +1,13 @@
 <div class="page">
   <div class="panel">
     <a routerLink="/rooms" class="back-link">&larr; Volver</a>
-    <h1 class="panel-title">Crear una sala</h1>
+    <h1 class="title">Crear una sala</h1>
 
     @if (createdCode()) {
       <div class="success-block">
-        <p class="hint-text">Sala creada. Compartí este código con tus invitados</p>
+        <p class="hint-text hint-text--lg">Sala creada. Compartí este código con tus invitados</p>
         <div class="code-chip">{{ createdCode() }}</div>
-        <button (click)="goToRoom()" class="btn-primary btn-block">Ir a la sala</button>
+        <button (click)="goToRoom()" class="btn btn--primary btn--block">Ir a la sala</button>
       </div>
     } @else {
       <form (ngSubmit)="submit()" class="form-stack">
@@ -34,13 +34,7 @@
         </label>
         <label class="form-field">
           <span class="form-label">Fecha del evento</span>
-          <input
-            class="form-input"
-            type="date"
-            [(ngModel)]="eventDate"
-            name="eventDate"
-            [min]="minDate"
-          />
+          <input class="form-input" type="date" [(ngModel)]="eventDate" name="eventDate" [min]="minDate" />
         </label>
         <label class="form-field">
           <span class="form-label">Lugar</span>
@@ -61,7 +55,7 @@
           <p class="field-error">{{ error() }}</p>
         }
 
-        <button type="submit" [disabled]="loading() || !name" class="btn-primary">
+        <button type="submit" [disabled]="loading() || !name" class="btn btn--primary">
           {{ loading() ? 'Creando…' : 'Crear sala' }}
         </button>
       </form>

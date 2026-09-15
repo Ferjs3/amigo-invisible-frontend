@@ -6,12 +6,12 @@
         <div class="ticket-header-top">
           <a routerLink="/rooms" class="back-link">&larr; Mis salas</a>
           @if (room()!.isAdmin) {
-            <button (click)="confirmAction.set('delete')" class="link-danger">Eliminar sala</button>
+            <button (click)="confirmAction.set('delete')" class="link link--danger">Eliminar sala</button>
           }
         </div>
-        <p class="ticket-eyebrow">Sala de amigo invisible</p>
+        <p class="eyebrow ticket-eyebrow">Sala de amigo invisible</p>
         <div class="ticket-title-row">
-          <h1 class="ticket-title">{{ room()!.name }}</h1>
+          <h1 class="title ticket-title">{{ room()!.name }}</h1>
           <button (click)="copyCode()" class="code-chip" title="Copiar código">
             {{ room()!.code }}
             <span class="code-chip-status">{{ copied() ? '✓ Copiado' : '⧉' }}</span>
@@ -88,23 +88,23 @@
   <!-- Modal de confirmacion (sorteo / eliminar sala) -->
   @if (confirmAction()) {
     <div class="modal-overlay">
-      <div class="modal-card">
+      <div class="panel modal-card">
         @if (confirmAction() === 'draw') {
-          <h2 class="modal-title">¿Iniciar el sorteo?</h2>
-          <p class="modal-text">
+          <h2 class="section-heading">¿Iniciar el sorteo?</h2>
+          <p class="hint-text hint-text--lg modal-text">
             Esta acción es <strong>definitiva</strong>. Una vez que sortees, la lista de
             participantes queda bloqueada: nadie va a poder sumarse, salir ni ser eliminado.
           </p>
         } @else {
-          <h2 class="modal-title">¿Eliminar esta sala?</h2>
-          <p class="modal-text">
+          <h2 class="section-heading">¿Eliminar esta sala?</h2>
+          <p class="hint-text hint-text--lg modal-text">
             Se borra por completo, junto con el tablón, las preguntas y el sorteo si ya se hizo.
             <strong>No se puede deshacer.</strong>
           </p>
         }
         <div class="modal-actions">
-          <button (click)="confirmAction.set(null)" class="btn-modal-cancel">Cancelar</button>
-          <button (click)="confirmAction() === 'draw' ? onDraw() : onDeleteRoom()" class="btn-modal-confirm">
+          <button (click)="confirmAction.set(null)" class="btn btn--outline">Cancelar</button>
+          <button (click)="confirmAction() === 'draw' ? onDraw() : onDeleteRoom()" class="btn btn--danger">
             {{ confirmAction() === 'draw' ? 'Sí, sortear' : 'Sí, eliminar' }}
           </button>
         </div>
@@ -113,6 +113,6 @@
   }
 } @else if (error()) {
   <div class="page page--centered">
-    <p class="page-error-text">{{ error() }}</p>
+    <p class="hint-text hint-text--lg page-error-text">{{ error() }}</p>
   </div>
 }

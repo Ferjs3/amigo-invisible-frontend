@@ -3,9 +3,9 @@
 
 <div class="exclusion-list">
   @for (ex of exclusions(); track ex.id) {
-    <div class="exclusion-row">
+    <div class="list-row">
       <span>{{ ex.giverUsername }} no le regala a {{ ex.receiverUsername }}</span>
-      <button (click)="remove(ex.id)" class="link-danger">Quitar</button>
+      <button (click)="remove(ex.id)" class="link link--danger">Quitar</button>
     </div>
   }
   @if (exclusions().length === 0) {
@@ -26,7 +26,7 @@
       <option [ngValue]="p.userId">{{ p.username }}</option>
     }
   </select>
-  <button (click)="add()" [disabled]="!giverId || !receiverId || giverId === receiverId" class="btn-add">
+  <button (click)="add()" [disabled]="!giverId || !receiverId || giverId === receiverId" class="btn btn--primary btn--sm">
     Agregar
   </button>
 </div>

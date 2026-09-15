@@ -3,20 +3,20 @@
 
 <div class="wishlist-groups">
   @for (p of participants; track p.userId) {
-    <div class="wishlist-group">
+    <div class="surface-block">
       <p class="wishlist-owner">{{ p.username }}{{ p.isMe ? ' (vos)' : '' }}</p>
 
       <div class="wishlist-items">
         @for (item of itemsByUser[p.userId] ?? []; track item.id) {
           <div class="wishlist-item">
             <span>
-              🎁 {{ item.title }}
+              · {{ item.title }}
               @if (item.note) {
-                <span class="wishlist-item-note"> — {{ item.note }}</span>
+                <span class="hint-text">— {{ item.note }}</span>
               }
             </span>
             @if (p.isMe) {
-              <button (click)="deleteItem(p.userId, item.id)" class="link-danger">Borrar</button>
+              <button (click)="deleteItem(p.userId, item.id)" class="link link--danger wishlist-delete">Borrar</button>
             }
           </div>
         }
@@ -34,7 +34,9 @@
             [name]="'newItem-' + p.userId"
             placeholder="Agregar una idea"
           />
-          <button (click)="addItem(p.userId)" [disabled]="!newItemTitle.trim()" class="btn-add">Sumar</button>
+          <button (click)="addItem(p.userId)" [disabled]="!newItemTitle.trim()" class="btn btn--primary btn--sm">
+            Sumar
+          </button>
         </div>
       }
     </div>

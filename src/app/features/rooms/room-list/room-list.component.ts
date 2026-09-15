@@ -35,8 +35,8 @@ export class RoomListComponent implements OnInit {
   }
 
   statusClass(status: string): string {
-    if (status === 'OPEN') return 'tag-estado tag-estado--abierta';
-    if (status === 'SEALED') return 'tag-estado tag-estado--sellada';
-    return 'tag-estado tag-estado--descartada';
+    if (status === 'OPEN') return 'tag tag--success';
+    if (status === 'SEALED') return 'tag tag--primary';
+    return 'tag tag--danger';
   }
 }

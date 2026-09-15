@@ -2,18 +2,18 @@
 
 @if (status(); as s) {
   @if (!s.open) {
-    <p class="hint-text">Presupuesto actual: {{ s.currentBudget ? ('$' + s.currentBudget) : 'sin definir' }}</p>
+    <p class="hint-text budget-line">Presupuesto actual: {{ s.currentBudget ? ('$' + s.currentBudget) : 'sin definir' }}</p>
     @if (isAdmin && roomOpen) {
-      <button (click)="openVote()" [disabled]="loading()" class="btn-open-vote">
+      <button (click)="openVote()" [disabled]="loading()" class="btn btn--dark btn--sm">
         Abrir votación de presupuesto
       </button>
     }
   } @else if (s.tieVotePending) {
     @if (isAdmin) {
-      <p class="hint-text">Hay un empate entre estos montos. Elegí el definitivo (solo vos ves esta pantalla):</p>
+      <p class="hint-text budget-line">Hay un empate entre estos montos. Elegí el definitivo (solo vos ves esta pantalla):</p>
       <div class="tie-options">
         @for (amount of s.tiedAmounts; track amount) {
-          <button (click)="resolveTie(amount)" [disabled]="loading()" class="btn-tie-option">
+          <button (click)="resolveTie(amount)" [disabled]="loading()" class="btn btn--primary">
             &#36;{{ amount }}
           </button>
         }
@@ -24,26 +24,26 @@
       </p>
     }
   } @else {
-    <p class="hint-text">
+    <p class="hint-text budget-line">
       {{ s.votedCount }} de {{ s.totalParticipants }} ya votaron. Tu voto es secreto, nadie ve qué elegiste.
     </p>
-    <div class="vote-row">
+    <div class="ask-row">
       <select [(ngModel)]="selectedAmount" class="form-select">
         <option [ngValue]="null">Elegí un monto</option>
         @for (opt of s.options; track opt) {
           <option [ngValue]="opt">&#36;{{ opt }}</option>
         }
       </select>
-      <button (click)="vote()" [disabled]="!selectedAmount || loading()" class="btn-vote">
+      <button (click)="vote()" [disabled]="!selectedAmount || loading()" class="btn btn--dark">
         {{ s.myVote ? 'Cambiar voto' : 'Votar' }}
       </button>
     </div>
     @if (s.myVote) {
-      <p class="already-voted">Ya votaste. Podés cambiarlo mientras falten votos.</p>
+      <p class="hint-text already-voted">Ya votaste. Podés cambiarlo mientras falten votos.</p>
     }
   }
 }
 
 @if (error()) {
-  <p class="field-error">{{ error() }}</p>
+  <p class="field-error budget-line">{{ error() }}</p>
 }

@@ -2,22 +2,22 @@
   <div class="install-bar">
     <span class="install-bar-text">Instalá la app para acceder más rápido</span>
     <div class="install-bar-actions">
-      <button (click)="install()" class="btn-install">Instalar</button>
-      <button (click)="dismissed.set(true)" class="btn-dismiss" aria-label="Cerrar">✕</button>
+      <button (click)="install()" class="btn btn--primary btn--sm">Instalar</button>
+      <button (click)="dismissed.set(true)" class="link install-dismiss" aria-label="Cerrar">✕</button>
     </div>
   </div>
 }
 
 @if (showIosHelp()) {
-  <div class="ios-overlay" (click)="showIosHelp.set(false)">
-    <div class="ios-sheet" (click)="$event.stopPropagation()">
-      <h2 class="ios-title">Para instalarla en iPhone</h2>
+  <div class="modal-overlay" (click)="showIosHelp.set(false)">
+    <div class="panel modal-sheet" (click)="$event.stopPropagation()">
+      <h2 class="section-heading">Para instalarla en iPhone</h2>
       <ol class="ios-steps">
         <li>Tocá el ícono de <strong>Compartir</strong> (el cuadrado con la flecha hacia arriba) en Safari.</li>
         <li>Elegí <strong>"Agregar a inicio"</strong>.</li>
         <li>Confirmá tocando <strong>"Agregar"</strong>.</li>
       </ol>
-      <button (click)="showIosHelp.set(false)" class="btn-ios-ok">Entendido</button>
+      <button (click)="showIosHelp.set(false)" class="btn btn--outline btn--block">Entendido</button>
     </div>
   </div>
 }

@@ -1,34 +1,7 @@
-.section-heading {
-  font-size: 18px;
-  color: var(--fg);
-  margin: 0 0 4px;
-}
-
-.section-subtitle {
-  font-size: 14px;
-  color: var(--fg-muted);
-  margin: 0 0 16px;
-}
-
 .participant-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.participant-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--surface-dim);
-  border-radius: 8px;
-  padding: 10px 14px;
-}
-
-.participant-name {
-  font-size: 15px;
-  font-weight: bold;
-  color: var(--fg);
 }
 
 .participant-actions {
@@ -38,93 +11,24 @@
 }
 
 .ready-toggle {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  cursor: pointer;
-}
-
-.ready-toggle--on {
-  background: var(--success);
-  color: var(--surface);
-  border-color: rgba(63, 108, 81, 0.3);
-}
-
-.ready-toggle--off {
-  background: var(--danger);
-  color: var(--surface);
-  border-color: rgba(201, 99, 74, 0.3);
-}
-
-.tag-estado {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 999px;
-}
-
-.tag-estado--abierta {
-  background: var(--success-bg);
-  color: var(--success-dark);
-}
-
-.tag-estado--descartada {
-  background: var(--danger-bg);
-  color: var(--danger-dark);
-}
-
-.link-danger {
-  background: none;
   border: none;
-  font-size: 12px;
-  color: var(--danger-dark);
   cursor: pointer;
-  padding: 0;
 }
 
 .leave-link {
   margin-top: 16px;
-  background: none;
-  border: none;
-  font-size: 12px;
-  color: var(--danger-dark);
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
   display: block;
+  text-decoration: underline;
 }
 
 .draw-box {
   margin-top: 20px;
-  background: var(--primary);
+  background: var(--primary-dark);
   border-radius: 8px;
   padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .draw-hint {
-  font-size: 12px;
-  color: rgba(243, 236, 221, 0.85);
-  margin: 0;
-}
-
-.draw-button {
-  margin-top: 10px;
-  width: 50%;
-  background: var(--fg);
-  color: var(--surface);
-  font-weight: 600;
-  font-size: 14px;
-  border: none;
-  border-radius: 8px;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.draw-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  color: color-mix(in srgb, var(--surface) 85%, transparent);
+  margin-bottom: 10px;
 }

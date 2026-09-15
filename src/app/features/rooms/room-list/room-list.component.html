@@ -1,32 +1,30 @@
 <div class="page">
-  <div class="panel">
-    <div class="panel-eyebrow-row">
-      <span class="panel-eyebrow">Amigo invisible</span>
-    </div>
-    <div class="panel-header">
-      <h1 class="panel-title">Hola, {{ authService.currentUser()?.username }}</h1>
-      <button (click)="authService.logout()" class="link-muted">Cerrar sesión</button>
+  <div class="panel panel--wide">
+    <p class="eyebrow">Amigo invisible</p>
+    <div class="header-row">
+      <h1 class="title title--tight">Hola, {{ authService.currentUser()?.username }}</h1>
+      <button (click)="authService.logout()" class="link link--muted logout-link">Cerrar sesión</button>
     </div>
 
     <div class="actions-row">
-      <a routerLink="/rooms/new" class="btn-primary-solid">+ Crear sala</a>
-      <a routerLink="/rooms/join" class="btn-secondary-outline">Unirme con código</a>
+      <a routerLink="/rooms/new" class="btn btn--primary action-btn">+ Crear sala</a>
+      <a routerLink="/rooms/join" class="btn btn--outline action-btn">Unirme con código</a>
     </div>
 
-    <h2 class="section-title">Tus salas</h2>
+    <h2 class="section-heading">Tus salas</h2>
 
     @if (loading()) {
-      <p class="hint-text">Cargando…</p>
+      <p class="hint-text hint-text--lg">Cargando…</p>
     } @else if (rooms().length === 0) {
-      <p class="hint-text hint-text--italic">Todavía no sos parte de ninguna sala.</p>
+      <p class="hint-text hint-text--lg hint-text--italic">Todavía no sos parte de ninguna sala.</p>
     } @else {
       <div class="room-list">
         @for (room of rooms(); track room.id) {
           <a [routerLink]="['/rooms', room.id]" class="room-card">
-            <div class="room-card-header">
+            <div class="row-between">
               <div>
                 <p class="room-card-name">{{ room.name }}</p>
-                <p class="room-card-role">{{ room.isAdmin ? 'Sos el admin' : 'Participante' }}</p>
+                <p class="hint-text">{{ room.isAdmin ? 'Sos el admin' : 'Participante' }}</p>
               </div>
               <span [class]="statusClass(room.status)">{{ statusLabel(room.status) }}</span>
             </div>
